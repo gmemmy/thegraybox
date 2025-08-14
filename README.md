@@ -10,15 +10,17 @@ All demos live under `app/demos`:
 - `nike/`: Product detail card, color/size selectors, and an options sheet interaction
 - `parallax-header/`: Collapsing header with parallax image and sticky content
 
+[iOS](https://github.com/user-attachments/assets/eb05b242-c348-4671-a6cd-ffc2dcb8c1e4)
+
 ## Run it
 
-1) Install deps
+1. Install deps
 
 ```bash
 npm install
 ```
 
-2) Start the dev server
+2. Start the dev server
 
 ```bash
 npm start

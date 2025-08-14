@@ -17,7 +17,6 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "jsEngine": "hermes"
     },
     "web": {
@@ -34,15 +33,6 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
-        }
-      ],
-      [
-        "react-native-edge-to-edge",
-        {
-          "android": {
-            "parentTheme": "Default",
-            "enforceNavigationBarContrast": false
-          }
         }
       ]
     ],

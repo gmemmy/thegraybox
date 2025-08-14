@@ -1,13 +1,13 @@
-import { type Href, Link } from 'expo-router'
-import React from 'react'
-import { FlatList, Pressable, StyleSheet, Text } from 'react-native'
+import React from 'react';
+import {type Href, Link} from 'expo-router';
+import {FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-type Demo = { key: string; title: string; href: Href };
+type Demo = {key: string; title: string; href: Href};
 
 const DEMOS: Demo[] = [
-  { key: 'bottom-sheet', title: 'Bottom Sheet', href: '/demos/bottom-sheet' },
-  { key: 'glass-tabs', title: 'Glass Tabs', href: '/demos/glass-tabs' },
-  { key: 'parallax-header', title: 'Parallax Header', href: '/demos/parallax-header' },
+  {key: 'nike', title: 'Nike Product Detail', href: '/demos/nike'},
+  {key: 'glass-tabs', title: 'Glass Tabs', href: '/demos/glass-tabs'},
+  {key: 'parallax-header', title: 'Parallax Header', href: '/demos/parallax-header'},
 ];
 
 export default function GalleryScreen() {
@@ -18,11 +18,11 @@ export default function GalleryScreen() {
       numColumns={2}
       columnWrapperStyle={styles.row}
       keyExtractor={(item) => item.key}
-      renderItem={({ item }) => (
+      renderItem={({item}) => (
         <Link href={item.href} asChild>
-          <Pressable style={styles.card}>
+          <TouchableOpacity style={styles.card}>
             <Text style={styles.cardTitle}>{item.title}</Text>
-          </Pressable>
+          </TouchableOpacity>
         </Link>
       )}
     />
