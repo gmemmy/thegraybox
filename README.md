@@ -10,7 +10,7 @@ All demos live under `app/demos`:
 - `nike/`: Product detail card, color/size selectors, and an options sheet interaction
 - `parallax-header/`: Collapsing header with parallax image and sticky content
 
-[iOS](https://github.com/user-attachments/assets/eb05b242-c348-4671-a6cd-ffc2dcb8c1e4)
+[iOS](https://github.com/user-attachments/assets/36637503-00c1-4440-a2b6-93ec2664fc10)
 
 ## Run it
 

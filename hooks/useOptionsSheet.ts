@@ -5,6 +5,12 @@ import {useDerivedValue, useSharedValue, withSpring} from 'react-native-reanimat
 import {Gesture} from 'react-native-gesture-handler';
 import type {GestureType} from 'react-native-gesture-handler';
 import {selection} from '@/lib/haptics';
+import {
+  BOTTOM_SHEET_RATIOS,
+  BOTTOM_SHEET_SPRINGS,
+  computeBottomSheetTargets,
+  shouldCloseSheet,
+} from '@/lib/animation/bottom-sheet';
 
 export type OptionsSheetController = {
   present: () => void;
@@ -24,9 +30,9 @@ export function useOptionsSheet(mode: 'fixed' | 'detents' = 'fixed'): OptionsShe
   const measuredHeight = useSharedValue(0);
   const keyboardHeight = useSharedValue(0);
 
-  const minOpen = 0.56 * screenHeight;
-  const maxOpen = 0.88 * screenHeight;
-  const floorOpen = 0.4 * screenHeight;
+  const minOpen = BOTTOM_SHEET_RATIOS.MIN_OPEN * screenHeight;
+  const maxOpen = BOTTOM_SHEET_RATIOS.MAX_OPEN * screenHeight;
+  const floorOpen = BOTTOM_SHEET_RATIOS.FLOOR_OPEN * screenHeight;
 
   const openHeight = useSharedValue(minOpen);
 
@@ -62,15 +68,12 @@ export function useOptionsSheet(mode: 'fixed' | 'detents' = 'fixed'): OptionsShe
     };
   }, [floorOpen, keyboardHeight, maxOpen, measuredHeight, minOpen, openHeight]);
 
-  const springOpen = {stiffness: 220, damping: 22, mass: 1, overshootClamping: false} as const;
-  const springClose = {stiffness: 220, damping: 22, mass: 1, overshootClamping: true} as const;
+  const springOpen = BOTTOM_SHEET_SPRINGS.OPEN;
+  const springClose = BOTTOM_SHEET_SPRINGS.CLOSE;
 
   function computeTargets() {
     'worklet';
-    const clampedOpen = Math.max(minOpen, Math.min(maxOpen, openHeight.value));
-    const openY = screenHeight - clampedOpen;
-    const closedY = screenHeight;
-    return {openY, closedY};
+    return computeBottomSheetTargets(screenHeight, openHeight.value, minOpen, maxOpen);
   }
 
   function animateTo(targetY: number, closing: boolean) {
@@ -101,8 +104,7 @@ export function useOptionsSheet(mode: 'fixed' | 'detents' = 'fixed'): OptionsShe
     .onEnd((e) => {
       const targets = computeTargets();
       const dragged = y.value - targets.openY; // >0 means downward
-      const threshold = 0.15 * screenHeight;
-      const shouldClose = dragged > threshold || e.velocityY > 1200;
+      const shouldClose = shouldCloseSheet(dragged, e.velocityY, screenHeight);
       y.value = withSpring(
         shouldClose ? targets.closedY : targets.openY,
         shouldClose ? springClose : springOpen,

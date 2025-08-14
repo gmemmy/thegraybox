@@ -1,29 +1,39 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Pressable} from 'react-native';
 import Animated, {
   FadeIn,
-  Easing,
   useSharedValue,
   useAnimatedStyle,
-  withDelay,
-  withRepeat,
-  withSequence,
-  withTiming,
+  withSpring,
 } from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
 import type {ImageSourcePropType} from 'react-native';
+import {colors} from '@/theme/colors';
+import {
+  BOTTOM_SHEET_SPRINGS,
+  ANIMATION_TIMING,
+  shouldOpenSheet,
+} from '@/lib/animation/bottom-sheet';
+import {createBounceAnimation, createScaleAnimation} from '@/lib/animation/patterns';
 
 type Props = {
   title?: string;
   image?: ImageSourcePropType;
   onPress?: () => void;
+  onCheckoutPress?: () => void;
   controller?: OptionsSheetController;
 };
 
-export function Card({title = 'Air Max Exosense', image, onPress, controller}: Props) {
+export function Card({
+  title = 'Air Max Exosense',
+  image,
+  onPress,
+  onCheckoutPress,
+  controller,
+}: Props) {
   const bounceOffset = useSharedValue(0);
-  const baseScale = useSharedValue(0.4);
+  const baseScale = useSharedValue(0.9);
   const pan = Gesture.Pan()
     .activeOffsetY(10)
     .onUpdate((e) => {
@@ -38,30 +48,33 @@ export function Card({title = 'Air Max Exosense', image, onPress, controller}: P
       const openY = controller.screenHeight - controller.openHeight.value;
       const closedY = controller.screenHeight;
       const dragged = closedY - controller.y.value; // distance opened
-      const threshold = 0.15 * controller.screenHeight;
-      const shouldOpen = dragged > threshold || e.velocityY > 800;
-      controller.y.value = shouldOpen ? openY : closedY;
+      const shouldOpen = shouldOpenSheet(dragged, e.velocityY, controller.screenHeight);
+
+      controller.y.value = withSpring(
+        shouldOpen ? openY : closedY,
+        shouldOpen ? BOTTOM_SHEET_SPRINGS.OPEN : BOTTOM_SHEET_SPRINGS.CLOSE,
+      );
     });
 
   React.useEffect(() => {
-    const scaleDuration = 350;
-    const startDelay = 250;
-    baseScale.value = withDelay(
-      startDelay,
-      withTiming(1, {duration: scaleDuration, easing: Easing.out(Easing.cubic)}),
-    );
-    const bounceStart = startDelay + scaleDuration;
-    bounceOffset.value = withDelay(
-      bounceStart,
-      withRepeat(
-        withSequence(
-          withTiming(-8, {duration: 450, easing: Easing.out(Easing.quad)}),
-          withTiming(0, {duration: 450, easing: Easing.in(Easing.quad)}),
-        ),
-        3,
-        false,
-      ),
-    );
+    const {START_DELAY, SCALE_DURATION} = ANIMATION_TIMING;
+
+    createScaleAnimation(baseScale, {
+      delay: START_DELAY,
+      duration: SCALE_DURATION,
+      from: 0.9,
+      to: 1,
+      easing: 'out',
+    });
+
+    // Create bounce animation after scale completes
+    createBounceAnimation(bounceOffset, {
+      delay: START_DELAY + SCALE_DURATION,
+      duration: ANIMATION_TIMING.BOUNCE_DURATION,
+      offset: ANIMATION_TIMING.BOUNCE_OFFSET,
+      cycles: ANIMATION_TIMING.BOUNCE_CYCLES,
+      easing: 'out',
+    });
   }, [baseScale, bounceOffset]);
 
   const fadeStyle = useAnimatedStyle(() => ({opacity: 1 - (controller?.progress.value ?? 0)}));
@@ -74,7 +87,7 @@ export function Card({title = 'Air Max Exosense', image, onPress, controller}: P
 
   return (
     <GestureDetector gesture={pan}>
-      <TouchableOpacity activeOpacity={0.8} style={styles.card} onPress={onPress}>
+      <Pressable style={styles.card} onPress={onPress}>
         <View style={styles.highlight} />
         <View style={styles.content}>
           <View style={styles.titleContainer}>
@@ -98,8 +111,11 @@ export function Card({title = 'Air Max Exosense', image, onPress, controller}: P
             <Text style={styles.priceLabel}>Price</Text>
             <Text style={styles.price}>$160.00</Text>
           </Animated.View>
+          <TouchableOpacity style={styles.checkoutButton} onPress={onCheckoutPress}>
+            <Text style={styles.checkoutButtonText}>Add to bag</Text>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </GestureDetector>
   );
 }
@@ -120,7 +136,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {width: '100%', height: 120},
-  title: {marginTop: 8, fontWeight: '400', color: 'gray', fontSize: 15},
+  title: {marginTop: 8, fontWeight: '400', color: colors.nike.gray, fontSize: 15},
   highlight: {
     position: 'absolute',
     left: -2.5,
@@ -128,7 +144,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 5,
     borderRadius: 2,
-    backgroundColor: '#7c3aed',
+    backgroundColor: colors.nike.purple,
   },
   content: {
     width: '100%',
@@ -139,7 +155,7 @@ const styles = StyleSheet.create({
   brand: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#7c3aed',
+    color: colors.nike.purple,
     marginBottom: 4,
   },
   priceContainer: {
@@ -148,13 +164,26 @@ const styles = StyleSheet.create({
   priceLabel: {
     fontSize: 14,
     fontWeight: '400',
-    color: 'gray',
+    color: colors.nike.gray,
   },
   price: {
     fontSize: 19,
-    color: 'red',
+    color: colors.nike.orange,
     fontWeight: '500',
     marginTop: 6,
+  },
+  checkoutButton: {
+    backgroundColor: colors.nike.purple,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    marginTop: 16,
+    alignItems: 'center',
+  },
+  checkoutButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 14,
   },
 });
 

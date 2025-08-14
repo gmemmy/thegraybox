@@ -5,23 +5,22 @@ import {OptionsSheet} from './OptionsSheet';
 import {useOptionsSheet} from '../../../hooks/useOptionsSheet';
 import {Card} from './components/Card';
 import {NikeHeader} from './components/NikeHeader';
+import {colors} from '@/theme/colors';
 
 export default function ShoeDetail() {
   const controller = useOptionsSheet();
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <NikeHeader onCartPress={() => {}} />
-      </View>
+        <NikeHeader onCartPress={() => controller.present()} />
       <FlatList
         data={[{key: 'card-1'}, {key: 'card-2'}]}
-        contentContainerStyle={{padding: 16}}
+        contentContainerStyle={styles.contentContainer}
         renderItem={({index}) => (
           <View style={{marginBottom: 16}}>
             <Card
               title={index === 0 ? 'Air Max Exosense' : 'Air Max Pulse'}
-              onPress={() => controller.present()}
+              onCheckoutPress={() => controller.present()}
               controller={controller}
             />
           </View>
@@ -33,8 +32,8 @@ export default function ShoeDetail() {
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: '#f8f8f8'},
-  header: {paddingBottom: 25},
+  container: {flex: 1, backgroundColor: colors.nike.lightGray},
+  contentContainer: {padding: 16},
   card: {
     backgroundColor: '#fff',
     borderRadius: 16,

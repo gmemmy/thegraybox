@@ -1,6 +1,7 @@
 import type {WithSpringConfig} from 'react-native-reanimated';
 
 export function iosLike(overrides: Partial<WithSpringConfig> = {}): WithSpringConfig {
+  'worklet';
   return {
     damping: 20,
     mass: 1,
@@ -13,6 +14,7 @@ export function iosLike(overrides: Partial<WithSpringConfig> = {}): WithSpringCo
 }
 
 export function gentle(overrides: Partial<WithSpringConfig> = {}): WithSpringConfig {
+  'worklet';
   return {
     damping: 18,
     mass: 1,
