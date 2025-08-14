@@ -1,10 +1,15 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Pressable} from 'react-native';
+import {View, StyleSheet, Text, Pressable} from 'react-native';
+import Transition from 'react-native-screen-transitions';
+import AddToBagButton from './AddToBagButton';
 import Animated, {
   FadeIn,
   useSharedValue,
   useAnimatedStyle,
   withSpring,
+  withTiming,
+  withDelay,
+  withSequence,
 } from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
@@ -16,8 +21,10 @@ import {
   shouldOpenSheet,
 } from '@/lib/animation/bottom-sheet';
 import {createBounceAnimation, createScaleAnimation} from '@/lib/animation/patterns';
+import {PRODUCT_TRANSITION} from '@/lib/animation/transitions';
 
 type Props = {
+  id?: string;
   title?: string;
   image?: ImageSourcePropType;
   onPress?: () => void;
@@ -26,6 +33,7 @@ type Props = {
 };
 
 export function Card({
+  id = '1',
   title = 'Air Max Exosense',
   image,
   onPress,
@@ -34,6 +42,7 @@ export function Card({
 }: Props) {
   const bounceOffset = useSharedValue(0);
   const baseScale = useSharedValue(0.9);
+  const ctaOpacity = useSharedValue(1);
   const pan = Gesture.Pan()
     .activeOffsetY(10)
     .onUpdate((e) => {
@@ -85,9 +94,19 @@ export function Card({
     ],
   }));
 
+  const ctaStyle = useAnimatedStyle(() => ({opacity: ctaOpacity.value}));
+
+  const handlePress = () => {
+    ctaOpacity.value = withSequence(
+      withTiming(0, {duration: 160}),
+      withDelay(PRODUCT_TRANSITION.OPEN_MS, withTiming(1, {duration: 0})),
+    );
+    onPress?.();
+  };
+
   return (
     <GestureDetector gesture={pan}>
-      <Pressable style={styles.card} onPress={onPress}>
+      <Pressable style={styles.card} onPress={handlePress}>
         <View style={styles.highlight} />
         <View style={styles.content}>
           <View style={styles.titleContainer}>
@@ -99,11 +118,13 @@ export function Card({
               {title}
             </Animated.Text>
           </View>
-          <Animated.Image
-            source={image ?? require('../../../../assets/images/nike/hero-01.png')}
-            resizeMode="contain"
-            style={[styles.image, imageMorphStyle]}
-          />
+          <Transition.View sharedBoundTag={`shoe-${id}`}>
+            <Animated.Image
+              source={image ?? require('../../../../assets/images/nike/hero-01.png')}
+              resizeMode="contain"
+              style={[styles.image, imageMorphStyle]}
+            />
+          </Transition.View>
           <Animated.View
             entering={FadeIn.duration(350).delay(240)}
             style={[styles.priceContainer, fadeStyle]}
@@ -111,9 +132,9 @@ export function Card({
             <Text style={styles.priceLabel}>Price</Text>
             <Text style={styles.price}>$160.00</Text>
           </Animated.View>
-          <TouchableOpacity style={styles.checkoutButton} onPress={onCheckoutPress}>
-            <Text style={styles.checkoutButtonText}>Add to bag</Text>
-          </TouchableOpacity>
+          <Animated.View style={ctaStyle}>
+            <AddToBagButton onPress={onCheckoutPress} />
+          </Animated.View>
         </View>
       </Pressable>
     </GestureDetector>
@@ -171,19 +192,6 @@ const styles = StyleSheet.create({
     color: colors.nike.orange,
     fontWeight: '500',
     marginTop: 6,
-  },
-  checkoutButton: {
-    backgroundColor: colors.nike.purple,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    marginTop: 16,
-    alignItems: 'center',
-  },
-  checkoutButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 14,
   },
 });
 

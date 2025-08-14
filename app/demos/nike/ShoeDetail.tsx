@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useRouter} from 'expo-router';
 import {OptionsSheet} from './OptionsSheet';
 import {useOptionsSheet} from '../../../hooks/useOptionsSheet';
 import {Card} from './components/Card';
@@ -9,17 +10,20 @@ import {colors} from '@/theme/colors';
 
 export default function ShoeDetail() {
   const controller = useOptionsSheet();
+  const router = useRouter();
 
   return (
     <SafeAreaView style={styles.container}>
-        <NikeHeader onCartPress={() => controller.present()} />
+      <NikeHeader onCartPress={() => controller.present()} />
       <FlatList
         data={[{key: 'card-1'}, {key: 'card-2'}]}
         contentContainerStyle={styles.contentContainer}
         renderItem={({index}) => (
           <View style={{marginBottom: 16}}>
             <Card
+              id={index === 0 ? '1' : '2'}
               title={index === 0 ? 'Air Max Exosense' : 'Air Max Pulse'}
+              onPress={() => router.push(`/product/${index === 0 ? '1' : '2'}`)}
               onCheckoutPress={() => controller.present()}
               controller={controller}
             />

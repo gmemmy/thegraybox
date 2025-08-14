@@ -20,6 +20,16 @@ Bottom sheet specific constants and utilities:
 - Spring configurations
 - Utility functions for worklet contexts
 
+### `transitions.ts`
+
+Screen transition configuration helpers:
+
+- `PRODUCT_TRANSITION` – central constants for durations and emphasis
+- `productDetailsTransitionOptions()` – returns options for the product details screen
+  - Delegates shared-element math to the library via `bounds().relative().transform().content().contentFit().build()`
+  - Adds screen `contentStyle` emphasis (opacity, scale, translateY)
+  - Applies `overlayStyle` to dim the previous screen during the transition
+
 ### `patterns.ts`
 
 Common animation patterns:
@@ -48,6 +58,7 @@ Scroll-related utilities:
 import {iosLike, gentle} from '@/lib/animation/springs';
 import {createBounceAnimation} from '@/lib/animation/patterns';
 import {shouldOpenSheet} from '@/lib/animation/bottom-sheet';
+import {productDetailsTransitionOptions} from '@/lib/animation/transitions';
 
 // Use predefined springs
 const springConfig = iosLike();
@@ -62,12 +73,7 @@ createBounceAnimation(sharedValue, {
 
 // Check gesture thresholds
 const shouldOpen = shouldOpenSheet(dragged, velocity, screenHeight);
+
+// Navigator options for product details
+<Stack.Screen name="product/[id]" options={productDetailsTransitionOptions()} />
 ```
-
-## Best Practices
-
-1. **Use worklet functions** for gesture callbacks and animations
-2. **Extract magic numbers** to constants
-3. **Reuse animation patterns** instead of duplicating code
-4. **Keep spring configurations consistent** across similar interactions
-5. **Document complex animations** with clear parameter names

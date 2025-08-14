@@ -1,11 +1,16 @@
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DarkTheme, DefaultTheme, ThemeProvider} from '@react-navigation/native';
 import {useFonts} from 'expo-font';
-import {Stack} from 'expo-router';
+import {withLayoutContext} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
 import 'react-native-reanimated';
+import {createNativeStackNavigator} from 'react-native-screen-transitions';
+import {productDetailsTransitionOptions} from '@/lib/animation/transitions';
 
 import {useColorScheme} from '@/hooks/useColorScheme';
+
+const RootStack = createNativeStackNavigator();
+const Stack = withLayoutContext(RootStack.Navigator);
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -23,6 +28,7 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{headerShown: false}} />
+          <Stack.Screen name="product/[id]" options={productDetailsTransitionOptions()} />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
