@@ -1,50 +1,44 @@
-# Welcome to your Expo app 👋
+# Gray Box — React Native Animated Interactions
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This repo is a small compendium of animated interactions in React Native that I find fun to build and iterate on. It's an [Expo](https://expo.dev) app using [Expo Router](https://docs.expo.dev/router/) with [Reanimated](https://docs.swmansion.com/react-native-reanimated/) and [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/).
 
-## Get started
+## Demos
 
-1. Install dependencies
+All demos live under `app/demos`:
 
-   ```bash
-   npm install
-   ```
+- `glass-tabs/`: Glassy tab bar with blur and springy transitions
+- `nike/`: Product detail card, color/size selectors, and an options sheet interaction
+- `parallax-header/`: Collapsing header with parallax image and sticky content
 
-2. Start the app
+## Run it
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+1) Install deps
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2) Start the dev server
 
-## Learn more
+```bash
+npm start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Then choose a target:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- iOS Simulator: `npx ios`
+- Android Emulator: `npx android`
 
-## Join the community
+This project uses [file-based routing](https://docs.expo.dev/router/introduction). New demos can be added by creating a folder under `app/demos/` and exporting a screen from `index.tsx`.
 
-Join our community of developers creating universal apps.
+## Tech
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- React Native + Expo
+- Expo Router
+- React Native Reanimated 3
+- React Native Gesture Handler
+- Expo modules: Blur, Haptics, Image, Symbols, Status Bar
+
+## Credits
+
+Built for learning, exploration, and fun. Inspirations come from various product UIs and motion studies across the community.
