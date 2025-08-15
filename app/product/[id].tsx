@@ -1,11 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, Text, useWindowDimensions} from 'react-native';
-import {useLocalSearchParams} from 'expo-router';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {View, StyleSheet, Text, useWindowDimensions, Pressable} from 'react-native';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import Transition from 'react-native-screen-transitions';
 import {colors} from '@/theme/colors';
 import AddToBagButton from '@/app/demos/nike/components/AddToBagButton';
+import {useOptionsSheet} from '@/hooks/useOptionsSheet';
+import {OptionsSheet} from '@/app/demos/nike/OptionsSheet';
+import {Entypo} from '@expo/vector-icons';
 
 export function useScreenWidth() {
   const {width} = useWindowDimensions();
@@ -15,6 +18,9 @@ export function useScreenWidth() {
 export default function ProductDetails() {
   const {id} = useLocalSearchParams<{id: string}>();
   const screenWidth = useScreenWidth();
+  const router = useRouter();
+  const {top} = useSafeAreaInsets();
+  const controller = useOptionsSheet();
 
   const product = {
     id: id || '1',
@@ -34,8 +40,15 @@ export default function ProductDetails() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Transition.ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
+      <Pressable onPress={() => router.back()} style={[styles.backBtn, {top: top + 8}]}>
+        <Entypo name="chevron-small-left" size={24} color="black" />
+      </Pressable>
+      <Transition.ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingTop: top + 8, paddingBottom: 12}}
+      >
         <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
           <Transition.View sharedBoundTag={`shoe-${product.id}`} style={styles.heroImage}>
             <Animated.Image
@@ -47,7 +60,7 @@ export default function ProductDetails() {
         </View>
         <View style={styles.ctaWrap}>
           <Animated.View entering={FadeInDown.delay(620).duration(260)}>
-            <AddToBagButton />
+            <AddToBagButton onPress={() => controller.present()} />
           </Animated.View>
         </View>
         <View style={styles.content}>
@@ -93,9 +106,9 @@ export default function ProductDetails() {
               ))}
             </View>
           </Animated.View>
-          <View style={styles.bottomPadding} />
         </View>
       </Transition.ScrollView>
+      <OptionsSheet controller={controller} />
     </SafeAreaView>
   );
 }
@@ -125,8 +138,26 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   content: {
-    padding: 20,
+    paddingHorizontal: 20,
+    marginTop: 20,
   },
+  backBtn: {
+    position: 'absolute',
+    left: 16,
+    zIndex: 10,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: {width: 0, height: 2},
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  backIcon: {fontSize: 22, fontWeight: '600', color: '#111'},
   ctaWrap: {
     paddingHorizontal: 20,
     marginTop: 8,
@@ -215,8 +246,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#fff',
-  },
-  bottomPadding: {
-    height: 40,
   },
 });

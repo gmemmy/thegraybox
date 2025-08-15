@@ -1,3 +1,4 @@
+// We do this to avoid deep imports from react-native-screen-transitions, this is a shallow type setup
 type BoundsBuilder = {
   relative: () => BoundsBuilder;
   transform: () => BoundsBuilder;
@@ -26,7 +27,7 @@ export function productDetailsTransitionOptions() {
     enableTransitions: true,
     screenStyleInterpolator: ({bounds, activeBoundId, progress}: ProductTransitionOptions) => {
       'worklet';
-      const animatedBound = (bounds(activeBoundId))
+      const animatedBound = bounds(activeBoundId)
         .relative()
         .transform()
         .content()

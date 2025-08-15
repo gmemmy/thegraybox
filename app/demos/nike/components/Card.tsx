@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
   withDelay,
   withSequence,
+  runOnJS,
 } from 'react-native-reanimated';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
@@ -22,6 +23,7 @@ import {
 } from '@/lib/animation/bottom-sheet';
 import {createBounceAnimation, createScaleAnimation} from '@/lib/animation/patterns';
 import {PRODUCT_TRANSITION} from '@/lib/animation/transitions';
+import {selection} from '@/lib/haptics';
 
 type Props = {
   id?: string;
@@ -58,6 +60,10 @@ export function Card({
       const closedY = controller.screenHeight;
       const dragged = closedY - controller.y.value; // distance opened
       const shouldOpen = shouldOpenSheet(dragged, e.velocityY, controller.screenHeight);
+
+      if (shouldOpen) {
+        runOnJS(selection)();
+      }
 
       controller.y.value = withSpring(
         shouldOpen ? openY : closedY,
