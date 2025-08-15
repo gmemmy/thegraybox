@@ -1,4 +1,5 @@
-import {withDelay, withRepeat, withSequence, withTiming, Easing} from 'react-native-reanimated';
+import {Easing, withDelay, withRepeat, withSequence, withTiming} from 'react-native-reanimated';
+
 import type {SharedValue} from 'react-native-reanimated';
 
 export function createBounceAnimation(

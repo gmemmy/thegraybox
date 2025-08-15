@@ -1,17 +1,19 @@
+import {BlurView} from 'expo-blur';
 import {useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
+import {GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   interpolate,
   runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {GestureDetector} from 'react-native-gesture-handler';
+
+import {ColorDots} from './components/color-dots';
+import {PriceCTA} from './components/price-cta';
+import {SizeChips} from './components/size-chips';
+
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
-import {BlurView} from 'expo-blur';
-import {SizeChips} from './components/SizeChips';
-import {ColorDots} from './components/ColorDots';
-import {PriceCTA} from './components/PriceCTA';
 
 type Props = {
   controller: OptionsSheetController;

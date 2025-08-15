@@ -2,8 +2,9 @@
 const {defineConfig} = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 const prettierConfig = require('eslint-config-prettier');
-const importPlugin = require('eslint-plugin-import');
+const checkFileModule = require('eslint-plugin-check-file');
 const unusedImports = require('eslint-plugin-unused-imports');
+const checkFile = checkFileModule?.default ?? checkFileModule;
 
 const base = [
   expoConfig,
@@ -16,10 +17,28 @@ const prettierAsArray = Array.isArray(prettierConfig) ? prettierConfig : [pretti
 
 const bestPractices = {
   plugins: {
-    import: importPlugin,
     'unused-imports': unusedImports,
+    'check-file': checkFile,
   },
   rules: {
+    'check-file/filename-naming-convention': [
+      'error',
+      {
+        'app/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
+        'components/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
+        'lib/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
+        'theme/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
+      },
+    ],
+    'check-file/folder-naming-convention': [
+      'error',
+      {
+        'components/**/': 'KEBAB_CASE',
+        'lib/**/': 'KEBAB_CASE',
+        'hooks/**/': 'KEBAB_CASE',
+        'theme/**/': 'KEBAB_CASE',
+      },
+    ],
     'no-console': ['warn', {allow: ['warn', 'error']}],
     eqeqeq: ['error', 'always'],
     'no-param-reassign': ['error', {props: true}],

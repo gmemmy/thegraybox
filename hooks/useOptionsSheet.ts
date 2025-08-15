@@ -1,16 +1,18 @@
-import type {SharedValue} from 'react-native-reanimated';
 import {useEffect} from 'react';
-import {Dimensions, Keyboard, type EmitterSubscription} from 'react-native';
-import {useDerivedValue, useSharedValue, withSpring} from 'react-native-reanimated';
+import {Dimensions, type EmitterSubscription, Keyboard} from 'react-native';
 import {Gesture} from 'react-native-gesture-handler';
-import type {GestureType} from 'react-native-gesture-handler';
-import {selection} from '@/lib/haptics';
+import {useDerivedValue, useSharedValue, withSpring} from 'react-native-reanimated';
+
 import {
   BOTTOM_SHEET_RATIOS,
   BOTTOM_SHEET_SPRINGS,
   computeBottomSheetTargets,
   shouldCloseSheet,
 } from '@/lib/animation/bottom-sheet';
+import {selection} from '@/lib/haptics';
+
+import type {GestureType} from 'react-native-gesture-handler';
+import type {SharedValue} from 'react-native-reanimated';
 
 export type OptionsSheetController = {
   present: () => void;

@@ -1,14 +1,15 @@
-import React from 'react';
-import {View, StyleSheet, Text, useWindowDimensions, Pressable} from 'react-native';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import Animated, {FadeInDown} from 'react-native-reanimated';
-import Transition from 'react-native-screen-transitions';
-import {colors} from '@/theme/colors';
-import AddToBagButton from '@/app/demos/nike/components/AddToBagButton';
-import {useOptionsSheet} from '@/hooks/useOptionsSheet';
-import {OptionsSheet} from '@/app/demos/nike/OptionsSheet';
 import {Entypo} from '@expo/vector-icons';
+import {useLocalSearchParams, useRouter} from 'expo-router';
+import React from 'react';
+import {Pressable, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
+import Animated, {FadeInDown} from 'react-native-reanimated';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import Transition from 'react-native-screen-transitions';
+
+import AddToBagButton from '@/app/demos/nike/components/add-to-bag-button';
+import {OptionsSheet} from '@/app/demos/nike/options-sheet';
+import {useOptionsSheet} from '@/hooks/useOptionsSheet';
+import {colors} from '@/theme/colors';
 
 export function useScreenWidth() {
   const {width} = useWindowDimensions();

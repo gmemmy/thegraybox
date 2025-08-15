@@ -1,10 +1,11 @@
-import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import {useRouter} from 'expo-router';
 import {Feather} from '@expo/vector-icons';
-import Animated, {useSharedValue, useAnimatedStyle} from 'react-native-reanimated';
-import {colors} from '@/theme/colors';
+import {useRouter} from 'expo-router';
+import React from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import Animated, {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
+
 import {createSwingAnimation} from '@/lib/animation/patterns';
+import {colors} from '@/theme/colors';
 
 type Props = {
   onCartPress?: () => void;

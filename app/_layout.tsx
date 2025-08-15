@@ -1,13 +1,13 @@
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DarkTheme, DefaultTheme, ThemeProvider} from '@react-navigation/native';
 import {useFonts} from 'expo-font';
 import {withLayoutContext} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import {createNativeStackNavigator} from 'react-native-screen-transitions';
-import {productDetailsTransitionOptions} from '@/lib/animation/transitions';
 
 import {useColorScheme} from '@/hooks/useColorScheme';
+import {productDetailsTransitionOptions} from '@/lib/animation/transitions';
 
 const RootStack = createNativeStackNavigator();
 const Stack = withLayoutContext(RootStack.Navigator);

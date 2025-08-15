@@ -1,12 +1,14 @@
+import {useRouter} from 'expo-router';
 import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useRouter} from 'expo-router';
-import {OptionsSheet} from './OptionsSheet';
-import {useOptionsSheet} from '../../../hooks/useOptionsSheet';
-import {Card} from './components/Card';
-import {NikeHeader} from './components/NikeHeader';
+
 import {colors} from '@/theme/colors';
+
+import {Card} from './components/card';
+import {NikeHeader} from './components/nike-header';
+import {OptionsSheet} from './options-sheet';
+import {useOptionsSheet} from '../../../hooks/useOptionsSheet';
 
 export default function ShoeDetail() {
   const controller = useOptionsSheet();

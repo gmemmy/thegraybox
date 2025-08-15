@@ -1,29 +1,32 @@
 import React from 'react';
-import {View, StyleSheet, Text, Pressable} from 'react-native';
-import Transition from 'react-native-screen-transitions';
-import AddToBagButton from './AddToBagButton';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   FadeIn,
-  useSharedValue,
+  runOnJS,
   useAnimatedStyle,
-  withSpring,
-  withTiming,
+  useSharedValue,
   withDelay,
   withSequence,
-  runOnJS,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
-import {Gesture, GestureDetector} from 'react-native-gesture-handler';
-import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
-import type {ImageSourcePropType} from 'react-native';
-import {colors} from '@/theme/colors';
+import Transition from 'react-native-screen-transitions';
+
 import {
-  BOTTOM_SHEET_SPRINGS,
   ANIMATION_TIMING,
+  BOTTOM_SHEET_SPRINGS,
   shouldOpenSheet,
 } from '@/lib/animation/bottom-sheet';
 import {createBounceAnimation, createScaleAnimation} from '@/lib/animation/patterns';
 import {PRODUCT_TRANSITION} from '@/lib/animation/transitions';
 import {selection} from '@/lib/haptics';
+import {colors} from '@/theme/colors';
+
+import AddToBagButton from './add-to-bag-button';
+
+import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
+import type {ImageSourcePropType} from 'react-native';
 
 type Props = {
   id?: string;

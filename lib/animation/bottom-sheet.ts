@@ -1,4 +1,4 @@
-import {iosLike, gentle} from './springs';
+import {gentle, iosLike} from './springs';
 
 export const BOTTOM_SHEET_RATIOS = {
   MIN_OPEN: 0.56, // 56% of screen height
