@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
@@ -23,7 +23,7 @@ import {PRODUCT_TRANSITION} from '@/lib/animation/transitions';
 import {selection} from '@/lib/haptics';
 import {colors} from '@/theme/colors';
 
-import AddToBagButton from './add-to-bag-button';
+import {AddToBagButton} from './add-to-bag-button';
 
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
 import type {ImageSourcePropType} from 'react-native';
@@ -48,27 +48,32 @@ export function Card({
   const bounceOffset = useSharedValue(0);
   const baseScale = useSharedValue(0.9);
   const ctaOpacity = useSharedValue(1);
+
+  const y = controller?.y;
+  const openHeightRef = controller?.openHeight;
+  const screenH = controller?.screenHeight ?? 0;
+
   const pan = Gesture.Pan()
     .activeOffsetY(10)
     .onUpdate((e) => {
-      if (!controller) return;
-      const openY = controller.screenHeight - controller.openHeight.value;
-      const closedY = controller.screenHeight;
+      if (!y || !openHeightRef) return;
+      const openY = screenH - openHeightRef.value;
+      const closedY = screenH;
       const next = closedY - e.translationY;
-      controller.y.value = Math.max(openY, Math.min(closedY, next));
+      y.value = Math.max(openY, Math.min(closedY, next));
     })
     .onEnd((e) => {
-      if (!controller) return;
-      const openY = controller.screenHeight - controller.openHeight.value;
-      const closedY = controller.screenHeight;
-      const dragged = closedY - controller.y.value; // distance opened
-      const shouldOpen = shouldOpenSheet(dragged, e.velocityY, controller.screenHeight);
+      if (!y || !openHeightRef) return;
+      const openY = screenH - openHeightRef.value;
+      const closedY = screenH;
+      const dragged = closedY - y.value; // distance opened
+      const shouldOpen = shouldOpenSheet(dragged, e.velocityY, screenH);
 
       if (shouldOpen) {
         runOnJS(selection)();
       }
 
-      controller.y.value = withSpring(
+      y.value = withSpring(
         shouldOpen ? openY : closedY,
         shouldOpen ? BOTTOM_SHEET_SPRINGS.OPEN : BOTTOM_SHEET_SPRINGS.CLOSE,
       );
@@ -120,12 +125,11 @@ export function Card({
         <View style={styles.content}>
           <View style={styles.titleContainer}>
             <Text style={styles.brand}>Nike</Text>
-            <Animated.Text
-              entering={FadeIn.duration(350).delay(0)}
-              style={[styles.title, fadeStyle]}
-            >
-              {title}
-            </Animated.Text>
+            <Animated.View entering={FadeIn.duration(350).delay(0)}>
+              <Animated.View style={fadeStyle}>
+                <Text style={styles.title}>{title}</Text>
+              </Animated.View>
+            </Animated.View>
           </View>
           <Transition.View sharedBoundTag={`shoe-${id}`}>
             <Animated.Image
@@ -134,12 +138,11 @@ export function Card({
               style={[styles.image, imageMorphStyle]}
             />
           </Transition.View>
-          <Animated.View
-            entering={FadeIn.duration(350).delay(240)}
-            style={[styles.priceContainer, fadeStyle]}
-          >
-            <Text style={styles.priceLabel}>Price</Text>
-            <Text style={styles.price}>$160.00</Text>
+          <Animated.View entering={FadeIn.duration(350).delay(240)} style={styles.priceContainer}>
+            <Animated.View style={fadeStyle}>
+              <Text style={styles.priceLabel}>Price</Text>
+              <Text style={styles.price}>$160.00</Text>
+            </Animated.View>
           </Animated.View>
           <Animated.View style={ctaStyle}>
             <AddToBagButton onPress={onCheckoutPress} />
@@ -198,7 +201,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 19,
-    color: colors.nike.orange,
+    color: colors.nike.black,
     fontWeight: '500',
     marginTop: 6,
   },

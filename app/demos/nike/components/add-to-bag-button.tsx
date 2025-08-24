@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {StyleSheet, Text, TouchableOpacity, type ViewStyle} from 'react-native';
 
 import {colors} from '@/theme/colors';
@@ -18,7 +18,7 @@ export function AddToBagButton({onPress, style}: Props) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.nike.purple,
+    backgroundColor: colors.nike.black,
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 10,

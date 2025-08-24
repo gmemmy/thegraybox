@@ -2,7 +2,7 @@ import {Stack} from 'expo-router';
 
 import ShoeDetail from './shoe-detail';
 
-import type React from 'react';
+import type * as React from 'react';
 
 export default function NikeDemoScreen(): React.JSX.Element {
   return (

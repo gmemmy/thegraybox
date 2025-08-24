@@ -13,6 +13,7 @@ export function createBounceAnimation(
   } = {},
 ) {
   const {delay = 0, duration = 450, offset = 8, cycles = 3, easing = 'out'} = config;
+  const sv = sharedValue;
 
   const easingFn =
     easing === 'out'
@@ -21,7 +22,7 @@ export function createBounceAnimation(
         ? Easing.in(Easing.quad)
         : Easing.inOut(Easing.quad);
 
-  sharedValue.value = withDelay(
+  sv.value = withDelay(
     delay,
     withRepeat(
       withSequence(
@@ -45,6 +46,7 @@ export function createScaleAnimation(
   } = {},
 ) {
   const {delay = 0, duration = 320, from = 0.9, to = 1, easing = 'out'} = config;
+  const sv = sharedValue;
 
   const easingFn =
     easing === 'out'
@@ -53,7 +55,12 @@ export function createScaleAnimation(
         ? Easing.in(Easing.cubic)
         : Easing.inOut(Easing.cubic);
 
-  sharedValue.value = withDelay(delay, withTiming(to, {duration, easing: easingFn}));
+  // initialize starting value if provided
+  if (from !== undefined) {
+    sv.value = from;
+  }
+
+  sv.value = withDelay(delay, withTiming(to, {duration, easing: easingFn}));
 }
 
 export function createSwingAnimation(
@@ -65,11 +72,12 @@ export function createSwingAnimation(
   } = {},
 ) {
   const {angle = 8, duration = 120, cycles = 3} = config;
+  const sv = sharedValue;
 
   const swingSequence = Array.from({length: cycles * 2}, (_, i) => {
     const swingAngle = i % 2 === 0 ? -angle : angle;
     return withTiming(swingAngle, {duration});
   });
 
-  sharedValue.value = withSequence(...swingSequence, withTiming(0, {duration}));
+  sv.value = withSequence(...swingSequence, withTiming(0, {duration}));
 }

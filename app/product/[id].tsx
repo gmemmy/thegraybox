@@ -1,12 +1,12 @@
 import {Entypo} from '@expo/vector-icons';
 import {useLocalSearchParams, useRouter} from 'expo-router';
-import React from 'react';
+import * as React from 'react';
 import {Pressable, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Transition from 'react-native-screen-transitions';
 
-import AddToBagButton from '@/app/demos/nike/components/add-to-bag-button';
+import {AddToBagButton} from '@/app/demos/nike/components/add-to-bag-button';
 import {OptionsSheet} from '@/app/demos/nike/options-sheet';
 import {useOptionsSheet} from '@/hooks/useOptionsSheet';
 import {colors} from '@/theme/colors';
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 24,
     fontWeight: '700',
-    color: colors.nike.purple,
+    color: colors.nike.gray,
   },
   section: {
     marginBottom: 24,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   colorChip: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: colors.nike.purple,
+    backgroundColor: colors.nike.black,
     borderRadius: 20,
   },
   colorText: {

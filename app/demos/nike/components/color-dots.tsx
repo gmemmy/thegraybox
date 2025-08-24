@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 const COLORS = ['#111', '#f33', '#36f'] as const;

@@ -24,7 +24,6 @@ const bestPractices = {
     'check-file/filename-naming-convention': [
       'error',
       {
-        'app/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
         'components/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
         'lib/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
         'theme/**/*.{js,jsx,ts,tsx}': 'KEBAB_CASE',
