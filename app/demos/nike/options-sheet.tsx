@@ -47,10 +47,7 @@ export function OptionsSheet({controller}: Props): React.JSX.Element {
           pointerEvents="none"
           style={[StyleSheet.absoluteFillObject, {opacity: controller.progress}]}
         >
-          <View style={StyleSheet.absoluteFill}>
-            <BlurView intensity={40} tint="dark" />
-          </View>
-          <View style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0,0,0,0.18)'}]} />
+          <BlurView intensity={40} tint="dark" style={StyleSheet.absoluteFill} />
         </AnimatedView>
       </Pressable>
 

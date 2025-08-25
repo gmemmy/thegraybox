@@ -22,7 +22,6 @@ export default function ProductDetails() {
   const router = useRouter();
   const {top} = useSafeAreaInsets();
   const controller = useOptionsSheet();
-  const scrollViewAnimStyle = useAnimatedStyle(() => ({}));
   const AnimatedView = Animated.createAnimatedComponent(View);
 
   const product = {
@@ -43,19 +42,18 @@ export default function ProductDetails() {
   };
 
   return (
-    <SafeAreaView edges={['left', 'right']}>
+    <SafeAreaView style={{flex: 1}} edges={['left', 'right']}>
       <View style={styles.container}>
         <Pressable onPress={() => router.back()} style={[styles.backBtn, {top: top + 8}]}>
           <Entypo name="chevron-small-left" size={24} color="black" />
         </Pressable>
         <Transition.ScrollView
-          style={[styles.scrollView, scrollViewAnimStyle]}
+          style={[styles.scrollView]}
+          contentContainerStyle={{paddingTop: top + 8, paddingBottom: 12}}
           showsVerticalScrollIndicator={false}
         >
-          <View style={{paddingTop: top + 8, paddingBottom: 12}}>
             <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
-              <View style={styles.heroImage}>
-                <Transition.View sharedBoundTag={`shoe-${product.id}`}>
+                <Transition.View sharedBoundTag={`shoe-${product.id}`} style={styles.heroImage}>
                   <Animated.Image
                     source={
                       imageUri
@@ -66,7 +64,6 @@ export default function ProductDetails() {
                     resizeMode="contain"
                   />
                 </Transition.View>
-              </View>
             </View>
             <View style={styles.ctaWrap}>
               <AnimatedView entering={FadeInDown.delay(620).duration(260)}>
@@ -117,7 +114,6 @@ export default function ProductDetails() {
                 </View>
               </AnimatedView>
             </View>
-          </View>
         </Transition.ScrollView>
         <OptionsSheet controller={controller} />
       </View>
@@ -131,7 +127,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   scrollView: {
-    flex: 1,
   },
   heroContainer: {
     backgroundColor: '#fff',
