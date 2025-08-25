@@ -1,6 +1,6 @@
 // We do this to avoid deep imports from react-native-screen-transitions, this is a shallow type setup
 type BoundsBuilder = {
-  gestures: (options?: { x?: number; y?: number }) => BoundsBuilder;
+  gestures: (options?: {x?: number; y?: number}) => BoundsBuilder;
   toFullscreen: () => BoundsBuilder;
   absolute: () => BoundsBuilder;
   relative: () => BoundsBuilder;
@@ -13,11 +13,13 @@ type BoundsBuilder = {
 };
 
 type BoundsAccessor = ((id?: string) => BoundsBuilder) & {
-  get: (id?: string, phase?: string) => { bounds: unknown; styles: unknown };
+  get: (id?: string, phase?: string) => {bounds: unknown; styles: unknown};
 };
 
 type ProductTransitionOptions = {
-  bounds: BoundsAccessor | { get: (id?: string, phase?: string) => { bounds: unknown; styles: unknown } };
+  bounds:
+    | BoundsAccessor
+    | {get: (id?: string, phase?: string) => {bounds: unknown; styles: unknown}};
   activeBoundId: string | null;
   progress: number;
 };
@@ -35,21 +37,16 @@ function isCallableBounds(b: unknown): b is (id?: string) => BoundsBuilder {
   return typeof b === 'function';
 }
 
-function hasGet(b: unknown): b is { get: (id?: string, phase?: string) => { styles: unknown } } {
+function hasGet(b: unknown): b is {get: (id?: string, phase?: string) => {styles: unknown}} {
   'worklet';
-  return !!b && typeof (b as { get: unknown }).get === 'function';
+  return !!b && typeof (b as {get: unknown}).get === 'function';
 }
 
 function getBoundStyles(b: ProductTransitionOptions['bounds'], id: string) {
   'worklet';
   // Compatibility: support both callable accessor and object with .get()
   if (isCallableBounds(b)) {
-    return b(id)
-      .relative()
-      .transform()
-      .content()
-      .contentFit()
-      .build();
+    return b(id).relative().transform().content().contentFit().build();
   }
   if (hasGet(b)) {
     const entry = b.get(id);

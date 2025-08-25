@@ -2,7 +2,7 @@ import {Entypo} from '@expo/vector-icons';
 import {useLocalSearchParams, useRouter} from 'expo-router';
 import * as React from 'react';
 import {Pressable, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
-import Animated, {FadeInDown} from 'react-native-reanimated';
+import Animated, {FadeInDown, useAnimatedStyle} from 'react-native-reanimated';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Transition from 'react-native-screen-transitions';
 
@@ -17,11 +17,13 @@ export function useScreenWidth() {
 }
 
 export default function ProductDetails() {
-  const {id} = useLocalSearchParams<{id: string}>();
+  const {id, imageUri} = useLocalSearchParams<{id: string; imageUri?: string}>();
   const screenWidth = useScreenWidth();
   const router = useRouter();
   const {top} = useSafeAreaInsets();
   const controller = useOptionsSheet();
+  const scrollViewAnimStyle = useAnimatedStyle(() => ({}));
+  const AnimatedView = Animated.createAnimatedComponent(View);
 
   const product = {
     id: id || '1',
@@ -41,75 +43,84 @@ export default function ProductDetails() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['left', 'right']}>
-      <Pressable onPress={() => router.back()} style={[styles.backBtn, {top: top + 8}]}>
-        <Entypo name="chevron-small-left" size={24} color="black" />
-      </Pressable>
-      <Transition.ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingTop: top + 8, paddingBottom: 12}}
-      >
-        <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
-          <Transition.View sharedBoundTag={`shoe-${product.id}`} style={styles.heroImage}>
-            <Animated.Image
-              source={require('../../assets/images/nike/hero-01.png')}
-              style={styles.image}
-              resizeMode="contain"
-            />
-          </Transition.View>
-        </View>
-        <View style={styles.ctaWrap}>
-          <Animated.View entering={FadeInDown.delay(620).duration(260)}>
-            <AddToBagButton onPress={() => controller.present()} />
-          </Animated.View>
-        </View>
-        <View style={styles.content}>
-          <Animated.View entering={FadeInDown.delay(720).duration(260)} style={styles.header}>
-            <Text style={styles.brand}>{product.brand}</Text>
-            <Text style={styles.title}>{product.name}</Text>
-            <Text style={styles.price}>{product.price}</Text>
-          </Animated.View>
-
-          <Animated.View entering={FadeInDown.delay(820).duration(240)} style={styles.section}>
-            <Text style={styles.sectionTitle}>Description</Text>
-            <Text style={styles.description}>{product.description}</Text>
-          </Animated.View>
-
-          <Animated.View entering={FadeInDown.delay(900).duration(240)} style={styles.section}>
-            <Text style={styles.sectionTitle}>Features</Text>
-            {product.features.map((feature) => (
-              <View key={feature} style={styles.featureItem}>
-                <View style={styles.bullet} />
-                <Text style={styles.featureText}>{feature}</Text>
+    <SafeAreaView edges={['left', 'right']}>
+      <View style={styles.container}>
+        <Pressable onPress={() => router.back()} style={[styles.backBtn, {top: top + 8}]}>
+          <Entypo name="chevron-small-left" size={24} color="black" />
+        </Pressable>
+        <Transition.ScrollView
+          style={[styles.scrollView, scrollViewAnimStyle]}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{paddingTop: top + 8, paddingBottom: 12}}>
+            <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
+              <View style={styles.heroImage}>
+                <Transition.View sharedBoundTag={`shoe-${product.id}`}>
+                  <Animated.Image
+                    source={
+                      imageUri
+                        ? {uri: String(imageUri)}
+                        : require('../../assets/images/nike/hero-01.png')
+                    }
+                    style={styles.image}
+                    resizeMode="contain"
+                  />
+                </Transition.View>
               </View>
-            ))}
-          </Animated.View>
-
-          <Animated.View entering={FadeInDown.delay(980).duration(240)} style={styles.section}>
-            <Text style={styles.sectionTitle}>Available Sizes</Text>
-            <View style={styles.sizeContainer}>
-              {product.sizes.map((size) => (
-                <View key={size} style={styles.sizeChip}>
-                  <Text style={styles.sizeText}>{size}</Text>
-                </View>
-              ))}
             </View>
-          </Animated.View>
-
-          <Animated.View entering={FadeInDown.delay(1060).duration(240)} style={styles.section}>
-            <Text style={styles.sectionTitle}>Colors</Text>
-            <View style={styles.colorContainer}>
-              {product.colors.map((color) => (
-                <View key={color} style={styles.colorChip}>
-                  <Text style={styles.colorText}>{color}</Text>
-                </View>
-              ))}
+            <View style={styles.ctaWrap}>
+              <AnimatedView entering={FadeInDown.delay(620).duration(260)}>
+                <AddToBagButton onPress={() => controller.present()} />
+              </AnimatedView>
             </View>
-          </Animated.View>
-        </View>
-      </Transition.ScrollView>
-      <OptionsSheet controller={controller} />
+            <View style={styles.content}>
+              <AnimatedView entering={FadeInDown.delay(720).duration(260)} style={styles.header}>
+                <Text style={styles.brand}>{product.brand}</Text>
+                <Text style={styles.title}>{product.name}</Text>
+                <Text style={styles.price}>{product.price}</Text>
+              </AnimatedView>
+
+              <AnimatedView entering={FadeInDown.delay(820).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Description</Text>
+                <Text style={styles.description}>{product.description}</Text>
+              </AnimatedView>
+
+              <AnimatedView entering={FadeInDown.delay(900).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Features</Text>
+                {product.features.map((feature) => (
+                  <View key={feature} style={styles.featureItem}>
+                    <View style={styles.bullet} />
+                    <Text style={styles.featureText}>{feature}</Text>
+                  </View>
+                ))}
+              </AnimatedView>
+
+              <AnimatedView entering={FadeInDown.delay(980).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Available Sizes</Text>
+                <View style={styles.sizeContainer}>
+                  {product.sizes.map((size) => (
+                    <View key={size} style={styles.sizeChip}>
+                      <Text style={styles.sizeText}>{size}</Text>
+                    </View>
+                  ))}
+                </View>
+              </AnimatedView>
+
+              <AnimatedView entering={FadeInDown.delay(1060).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Colors</Text>
+                <View style={styles.colorContainer}>
+                  {product.colors.map((color) => (
+                    <View key={color} style={styles.colorChip}>
+                      <Text style={styles.colorText}>{color}</Text>
+                    </View>
+                  ))}
+                </View>
+              </AnimatedView>
+            </View>
+          </View>
+        </Transition.ScrollView>
+        <OptionsSheet controller={controller} />
+      </View>
     </SafeAreaView>
   );
 }

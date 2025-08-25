@@ -20,6 +20,7 @@ const ANIMATION_CONFIG = {
 export function NikeHeader({onCartPress}: Props) {
   const router = useRouter();
   const shakeOffset = useSharedValue(0);
+  const AnimatedView = Animated.createAnimatedComponent(View);
 
   React.useEffect(() => {
     const {SWING_ANGLE, SWING_DURATION, SWING_CYCLES} = ANIMATION_CONFIG;
@@ -46,9 +47,9 @@ export function NikeHeader({onCartPress}: Props) {
         <View style={styles.cartBadge}>
           <Text style={styles.cartBadgeText}>1</Text>
         </View>
-        <Animated.View style={shakeStyle}>
-          <Feather name="shopping-bag" size={24} color={colors.nike.purple} />
-        </Animated.View>
+        <AnimatedView style={shakeStyle}>
+          <Feather name="shopping-bag" size={24} color={colors.backgroundDark} />
+        </AnimatedView>
       </Pressable>
     </View>
   );
@@ -62,6 +63,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: colors.background,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.nike.lightGray,
+    shadowColor: colors.backgroundDark,
+    shadowOffset: {width: 10, height: 10},
+    shadowOpacity: 0.9,
+    shadowRadius: -10,
+    elevation: 2,
   },
   leftBtn: {padding: 8},
   rightBtn: {padding: 8},
@@ -72,7 +81,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 2,
     top: 2,
-    backgroundColor: colors.nike.orange,
+    backgroundColor: colors.nike.red,
     width: 16,
     height: 16,
     borderRadius: 8,

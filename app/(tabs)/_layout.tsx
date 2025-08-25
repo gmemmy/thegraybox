@@ -3,9 +3,7 @@ import {Tabs} from 'expo-router';
 import {StyleSheet} from 'react-native';
 
 function TabBarBlurBackground() {
-  return (
-    <BlurView intensity={50} tint="systemChromeMaterial" style={StyleSheet.absoluteFill} />
-  );
+  return <BlurView intensity={50} tint="systemChromeMaterial" style={StyleSheet.absoluteFill} />;
 }
 
 export default function TabLayout() {

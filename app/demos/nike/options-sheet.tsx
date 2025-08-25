@@ -21,6 +21,7 @@ type Props = {
 };
 
 export function OptionsSheet({controller}: Props): React.JSX.Element {
+  const AnimatedView = Animated.createAnimatedComponent(View);
   const animatedStyle = useAnimatedStyle(() => {
     const radius = interpolate(controller.progress.value, [0, 1], [0, 20]);
     return {
@@ -42,28 +43,26 @@ export function OptionsSheet({controller}: Props): React.JSX.Element {
   return (
     <>
       <Pressable pointerEvents={blockTouches ? 'auto' : 'none'} style={StyleSheet.absoluteFill}>
-        <Animated.View
+        <AnimatedView
           pointerEvents="none"
           style={[StyleSheet.absoluteFillObject, {opacity: controller.progress}]}
         >
-          <BlurView
-            intensity={40}
-            tint="systemUltraThinMaterialDark"
-            style={StyleSheet.absoluteFill}
-          />
+          <View style={StyleSheet.absoluteFill}>
+            <BlurView intensity={40} tint="dark" />
+          </View>
           <View style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0,0,0,0.18)'}]} />
-        </Animated.View>
+        </AnimatedView>
       </Pressable>
 
       <GestureDetector gesture={controller.gesture}>
-        <Animated.View style={[styles.container, animatedStyle]}>
+        <AnimatedView style={[styles.container, animatedStyle]}>
           <View style={styles.handleBar} />
           <View style={[styles.content]}>
             <SizeChips />
             <ColorDots />
             <PriceCTA />
           </View>
-        </Animated.View>
+        </AnimatedView>
       </GestureDetector>
     </>
   );

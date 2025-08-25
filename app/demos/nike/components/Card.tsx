@@ -20,6 +20,7 @@ import {
 } from '@/lib/animation/bottom-sheet';
 import {createBounceAnimation, createScaleAnimation} from '@/lib/animation/patterns';
 import {PRODUCT_TRANSITION} from '@/lib/animation/transitions';
+import {getAccentColor} from '@/lib/color';
 import {selection} from '@/lib/haptics';
 import {colors} from '@/theme/colors';
 
@@ -35,6 +36,7 @@ type Props = {
   onPress?: () => void;
   onCheckoutPress?: () => void;
   controller?: OptionsSheetController;
+  accentColor?: string;
 };
 
 export function Card({
@@ -44,6 +46,7 @@ export function Card({
   onPress,
   onCheckoutPress,
   controller,
+  accentColor,
 }: Props) {
   const bounceOffset = useSharedValue(0);
   const baseScale = useSharedValue(0.9);
@@ -118,13 +121,15 @@ export function Card({
     onPress?.();
   };
 
+  const accent = accentColor ?? getAccentColor(id, title);
+
   return (
     <GestureDetector gesture={pan}>
       <Pressable style={styles.card} onPress={handlePress}>
-        <View style={styles.highlight} />
+        <View style={[styles.highlight, {backgroundColor: accent}]} />
         <View style={styles.content}>
           <View style={styles.titleContainer}>
-            <Text style={styles.brand}>Nike</Text>
+            <Text style={[styles.brand, {color: accent}]}>Nike</Text>
             <Animated.View entering={FadeIn.duration(350).delay(0)}>
               <Animated.View style={fadeStyle}>
                 <Text style={styles.title}>{title}</Text>
@@ -164,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     shadowColor: '#1f1f1f',
     shadowOffset: {width: 2, height: 1},
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 5,
   },
