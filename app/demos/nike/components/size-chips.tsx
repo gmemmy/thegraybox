@@ -1,16 +1,30 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 
-export function SizeChips() {
+type Props = {
+  sizes: string[];
+  value?: string;
+  onChange?: (size: string) => void;
+};
+
+export default function SizeChips({sizes, value, onChange}: Props) {
   return (
     <View style={styles.row}>
-      <Text style={styles.title}>Sizes</Text>
       <View style={styles.chips}>
-        {['7', '8', '9', '10'].map((s) => (
-          <View key={s} style={styles.chip}>
-            <Text>{s}</Text>
-          </View>
-        ))}
+        {sizes.map((s) => {
+          const selected = s === value;
+          return (
+            <Pressable
+              key={s}
+              onPress={() => onChange?.(s)}
+              style={[styles.chip, selected ? styles.chipSelected : undefined]}
+            >
+              <Text style={[styles.chipText, selected ? styles.chipTextSelected : undefined]}>
+                {s}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );
@@ -18,9 +32,9 @@ export function SizeChips() {
 
 const styles = StyleSheet.create({
   row: {gap: 8},
-  title: {fontWeight: '600'},
-  chips: {flexDirection: 'row', gap: 8},
-  chip: {paddingVertical: 8, paddingHorizontal: 12, borderRadius: 999, backgroundColor: '#f1f1f1'},
+  chips: {flexDirection: 'row', gap: 12, flexWrap: 'wrap'},
+  chip: {paddingVertical: 10, paddingHorizontal: 14, borderRadius: 10, backgroundColor: '#f1f1f1'},
+  chipSelected: {backgroundColor: '#e1e1e1'},
+  chipText: {fontWeight: '600'},
+  chipTextSelected: {opacity: 1},
 });
-
-export default SizeChips;

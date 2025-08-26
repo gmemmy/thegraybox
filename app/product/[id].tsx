@@ -2,14 +2,16 @@ import {Entypo} from '@expo/vector-icons';
 import {useLocalSearchParams, useRouter} from 'expo-router';
 import * as React from 'react';
 import {Pressable, StyleSheet, Text, useWindowDimensions, View} from 'react-native';
-import Animated, {FadeInDown, useAnimatedStyle} from 'react-native-reanimated';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Transition from 'react-native-screen-transitions';
 
 import {AddToBagButton} from '@/app/demos/nike/components/add-to-bag-button';
-import {OptionsSheet} from '@/app/demos/nike/options-sheet';
+import OptionsSheet from '@/app/demos/nike/options-sheet';
 import {useOptionsSheet} from '@/hooks/useOptionsSheet';
 import {colors} from '@/theme/colors';
+
+import type {Product} from '@/types/product';
 
 export function useScreenWidth() {
   const {width} = useWindowDimensions();
@@ -17,18 +19,30 @@ export function useScreenWidth() {
 }
 
 export default function ProductDetails() {
-  const {id, imageUri} = useLocalSearchParams<{id: string; imageUri?: string}>();
+  const {id, imageUri, title, subtitle, price} = useLocalSearchParams<{
+    id: string;
+    imageUri: string;
+    title: string;
+    subtitle?: string;
+    price: string;
+  }>();
   const screenWidth = useScreenWidth();
   const router = useRouter();
   const {top} = useSafeAreaInsets();
   const controller = useOptionsSheet();
   const AnimatedView = Animated.createAnimatedComponent(View);
 
-  const product = {
-    id: id || '1',
-    name: 'Air Max Exosense',
+  const baseProduct: Product = {
+    id,
+    title,
+    subtitle,
     brand: 'Nike',
-    price: '$160.00',
+    price: Number(price),
+    image: {uri: String(imageUri)},
+  };
+
+  const product = {
+    ...baseProduct,
     description:
       'Experience ultimate comfort and style with the Nike Air Max Exosense. This innovative sneaker combines cutting-edge technology with timeless design.',
     features: [
@@ -39,7 +53,7 @@ export default function ProductDetails() {
     ],
     sizes: ['7', '8', '9', '10', '11', '12'],
     colors: ['Black', 'White', 'Red'],
-  };
+  } as const;
 
   return (
     <SafeAreaView style={{flex: 1}} edges={['left', 'right']}>
@@ -52,70 +66,62 @@ export default function ProductDetails() {
           contentContainerStyle={{paddingTop: top + 8, paddingBottom: 12}}
           showsVerticalScrollIndicator={false}
         >
-            <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
-                <Transition.View sharedBoundTag={`shoe-${product.id}`} style={styles.heroImage}>
-                  <Animated.Image
-                    source={
-                      imageUri
-                        ? {uri: String(imageUri)}
-                        : require('../../assets/images/nike/hero-01.png')
-                    }
-                    style={styles.image}
-                    resizeMode="contain"
-                  />
-                </Transition.View>
-            </View>
-            <View style={styles.ctaWrap}>
-              <AnimatedView entering={FadeInDown.delay(620).duration(260)}>
-                <AddToBagButton onPress={() => controller.present()} />
-              </AnimatedView>
-            </View>
-            <View style={styles.content}>
-              <AnimatedView entering={FadeInDown.delay(720).duration(260)} style={styles.header}>
-                <Text style={styles.brand}>{product.brand}</Text>
-                <Text style={styles.title}>{product.name}</Text>
-                <Text style={styles.price}>{product.price}</Text>
-              </AnimatedView>
+          <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
+            <Transition.View sharedBoundTag={`shoe-${product.id}`} style={styles.heroImage}>
+              <Animated.Image source={product.image} style={styles.image} resizeMode="contain" />
+            </Transition.View>
+          </View>
+          <View style={styles.ctaWrap}>
+            <AnimatedView entering={FadeInDown.delay(620).duration(260)}>
+              <AddToBagButton onPress={() => controller.present()} />
+            </AnimatedView>
+          </View>
+          <View style={styles.content}>
+            <AnimatedView entering={FadeInDown.delay(720).duration(260)} style={styles.header}>
+              <Text style={styles.brand}>{product.brand}</Text>
+              <Text style={styles.title}>{product.title}</Text>
+              <Text style={styles.price}>{`$${product.price.toFixed(2)}`}</Text>
+            </AnimatedView>
 
-              <AnimatedView entering={FadeInDown.delay(820).duration(240)} style={styles.section}>
-                <Text style={styles.sectionTitle}>Description</Text>
-                <Text style={styles.description}>{product.description}</Text>
-              </AnimatedView>
+            <AnimatedView entering={FadeInDown.delay(820).duration(240)} style={styles.section}>
+              <Text style={styles.sectionTitle}>Description</Text>
+              <Text style={styles.description}>{product.description}</Text>
+            </AnimatedView>
 
-              <AnimatedView entering={FadeInDown.delay(900).duration(240)} style={styles.section}>
-                <Text style={styles.sectionTitle}>Features</Text>
-                {product.features.map((feature) => (
-                  <View key={feature} style={styles.featureItem}>
-                    <View style={styles.bullet} />
-                    <Text style={styles.featureText}>{feature}</Text>
+            <AnimatedView entering={FadeInDown.delay(900).duration(240)} style={styles.section}>
+              <Text style={styles.sectionTitle}>Features</Text>
+              {product.features.map((feature) => (
+                <View key={feature} style={styles.featureItem}>
+                  <View style={styles.bullet} />
+                  <Text style={styles.featureText}>{feature}</Text>
+                </View>
+              ))}
+            </AnimatedView>
+
+            <AnimatedView entering={FadeInDown.delay(980).duration(240)} style={styles.section}>
+              <Text style={styles.sectionTitle}>Available Sizes</Text>
+              <View style={styles.sizeContainer}>
+                {product.sizes.map((size) => (
+                  <View key={size} style={styles.sizeChip}>
+                    <Text style={styles.sizeText}>{size}</Text>
                   </View>
                 ))}
-              </AnimatedView>
+              </View>
+            </AnimatedView>
 
-              <AnimatedView entering={FadeInDown.delay(980).duration(240)} style={styles.section}>
-                <Text style={styles.sectionTitle}>Available Sizes</Text>
-                <View style={styles.sizeContainer}>
-                  {product.sizes.map((size) => (
-                    <View key={size} style={styles.sizeChip}>
-                      <Text style={styles.sizeText}>{size}</Text>
-                    </View>
-                  ))}
-                </View>
-              </AnimatedView>
-
-              <AnimatedView entering={FadeInDown.delay(1060).duration(240)} style={styles.section}>
-                <Text style={styles.sectionTitle}>Colors</Text>
-                <View style={styles.colorContainer}>
-                  {product.colors.map((color) => (
-                    <View key={color} style={styles.colorChip}>
-                      <Text style={styles.colorText}>{color}</Text>
-                    </View>
-                  ))}
-                </View>
-              </AnimatedView>
-            </View>
+            <AnimatedView entering={FadeInDown.delay(1060).duration(240)} style={styles.section}>
+              <Text style={styles.sectionTitle}>Colors</Text>
+              <View style={styles.colorContainer}>
+                {product.colors.map((color) => (
+                  <View key={color} style={styles.colorChip}>
+                    <Text style={styles.colorText}>{color}</Text>
+                  </View>
+                ))}
+              </View>
+            </AnimatedView>
+          </View>
         </Transition.ScrollView>
-        <OptionsSheet controller={controller} />
+        <OptionsSheet controller={controller} product={baseProduct} />
       </View>
     </SafeAreaView>
   );
@@ -126,8 +132,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  scrollView: {
-  },
+  scrollView: {},
   heroContainer: {
     backgroundColor: '#fff',
     justifyContent: 'center',
@@ -212,7 +217,7 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: colors.nike.purple,
+    backgroundColor: colors.backgroundDark,
     marginRight: 12,
   },
   featureText: {

@@ -1,26 +1,27 @@
 import {BlurView} from 'expo-blur';
-import {useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {useMemo, useState} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   interpolate,
-  runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import {runOnJS} from 'react-native-worklets';
 
-import {ColorDots} from './components/color-dots';
-import {PriceCTA} from './components/price-cta';
-import {SizeChips} from './components/size-chips';
+import PriceCTA from './components/price-cta';
+import SizeChips from './components/size-chips';
 
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
+import type {Product} from '@/types/product';
 
 type Props = {
   controller: OptionsSheetController;
+  product: Product;
   children?: React.ReactNode;
 };
 
-export function OptionsSheet({controller}: Props): React.JSX.Element {
+export default function OptionsSheet({controller, product}: Props) {
   const AnimatedView = Animated.createAnimatedComponent(View);
   const animatedStyle = useAnimatedStyle(() => {
     const radius = interpolate(controller.progress.value, [0, 1], [0, 20]);
@@ -40,6 +41,9 @@ export function OptionsSheet({controller}: Props): React.JSX.Element {
     },
   );
 
+  const sizes = useMemo(() => ['EU 40', 'EU41', 'EU42', 'EU43', 'EU44'], []);
+  const [selectedSize, setSelectedSize] = useState<string | undefined>();
+
   return (
     <>
       <Pressable pointerEvents={blockTouches ? 'auto' : 'none'} style={StyleSheet.absoluteFill}>
@@ -52,12 +56,26 @@ export function OptionsSheet({controller}: Props): React.JSX.Element {
       </Pressable>
 
       <GestureDetector gesture={controller.gesture}>
-        <AnimatedView style={[styles.container, animatedStyle]}>
+        <AnimatedView
+          style={[styles.container, animatedStyle]}
+          onLayout={(e) => controller.onMeasureContent(e.nativeEvent.layout.height)}
+        >
           <View style={styles.handleBar} />
+          <View style={[styles.headerRow]}>
+            <Image source={product.image} style={styles.headerImage} resizeMode="contain" />
+            <View style={styles.headerInfo}>
+              <Text style={styles.headerTitle}>{product.title}</Text>
+              {product.subtitle ? (
+                <Text style={styles.headerSubtitle}>{product.subtitle}</Text>
+              ) : null}
+            </View>
+            <Text style={styles.headerPrice}>{`$${product.price.toFixed(2)}`}</Text>
+          </View>
+
           <View style={[styles.content]}>
-            <SizeChips />
-            <ColorDots />
-            <PriceCTA />
+            <Text style={styles.sectionLabel}>SELECT SIZE</Text>
+            <SizeChips sizes={sizes} value={selectedSize} onChange={setSelectedSize} />
+            <PriceCTA price={product.price} label="Add to cart" />
           </View>
         </AnimatedView>
       </GestureDetector>
@@ -89,6 +107,16 @@ const styles = StyleSheet.create({
   content: {
     gap: 16,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+  },
+  headerImage: {width: 100, height: 60},
+  headerInfo: {flex: 1, paddingHorizontal: 8},
+  headerTitle: {fontWeight: '700', fontSize: 16},
+  headerSubtitle: {color: '#999', marginTop: 2},
+  headerPrice: {fontWeight: '800', fontSize: 18},
+  sectionLabel: {alignSelf: 'center', color: '#A1A1A1', fontWeight: '600', marginTop: 8},
 });
-
-export default OptionsSheet;

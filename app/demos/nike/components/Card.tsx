@@ -3,7 +3,6 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   FadeIn,
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -12,6 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Transition from 'react-native-screen-transitions';
+import {runOnJS} from 'react-native-worklets';
 
 import {
   ANIMATION_TIMING,
@@ -32,6 +32,8 @@ import type {ImageSourcePropType} from 'react-native';
 type Props = {
   id?: string;
   title?: string;
+  subtitle?: string;
+  price?: number;
   image?: ImageSourcePropType;
   onPress?: () => void;
   onCheckoutPress?: () => void;
@@ -39,15 +41,9 @@ type Props = {
   accentColor?: string;
 };
 
-export function Card({
-  id = '1',
-  title = 'Air Max Exosense',
-  image,
-  onPress,
-  onCheckoutPress,
-  controller,
-  accentColor,
-}: Props) {
+const AnimatedView = Animated.createAnimatedComponent(View);
+
+function Card({id, title, price, image, onPress, onCheckoutPress, controller, accentColor}: Props) {
   const bounceOffset = useSharedValue(0);
   const baseScale = useSharedValue(0.9);
   const ctaOpacity = useSharedValue(1);
@@ -130,11 +126,11 @@ export function Card({
         <View style={styles.content}>
           <View style={styles.titleContainer}>
             <Text style={[styles.brand, {color: accent}]}>Nike</Text>
-            <Animated.View entering={FadeIn.duration(350).delay(0)}>
-              <Animated.View style={fadeStyle}>
+            <AnimatedView entering={FadeIn.duration(350).delay(0)}>
+              <AnimatedView style={fadeStyle}>
                 <Text style={styles.title}>{title}</Text>
-              </Animated.View>
-            </Animated.View>
+              </AnimatedView>
+            </AnimatedView>
           </View>
           <Transition.View sharedBoundTag={`shoe-${id}`}>
             <Animated.Image
@@ -143,15 +139,15 @@ export function Card({
               style={[styles.image, imageMorphStyle]}
             />
           </Transition.View>
-          <Animated.View entering={FadeIn.duration(350).delay(240)} style={styles.priceContainer}>
-            <Animated.View style={fadeStyle}>
+          <AnimatedView entering={FadeIn.duration(350).delay(240)} style={styles.priceContainer}>
+            <AnimatedView style={fadeStyle}>
               <Text style={styles.priceLabel}>Price</Text>
-              <Text style={styles.price}>$160.00</Text>
-            </Animated.View>
-          </Animated.View>
-          <Animated.View style={ctaStyle}>
+              <Text style={styles.price}>{`$${price?.toFixed(2) ?? '0.00'}`}</Text>
+            </AnimatedView>
+          </AnimatedView>
+          <AnimatedView style={ctaStyle}>
             <AddToBagButton onPress={onCheckoutPress} />
-          </Animated.View>
+          </AnimatedView>
         </View>
       </Pressable>
     </GestureDetector>

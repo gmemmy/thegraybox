@@ -17,7 +17,7 @@ const ANIMATION_CONFIG = {
   SWING_CYCLES: 3,
 } as const;
 
-export function NikeHeader({onCartPress}: Props) {
+export default function NikeHeader({onCartPress}: Props) {
   const router = useRouter();
   const shakeOffset = useSharedValue(0);
   const AnimatedView = Animated.createAnimatedComponent(View);
@@ -91,5 +91,3 @@ const styles = StyleSheet.create({
   },
   cartBadgeText: {color: '#fff', fontSize: 10, fontWeight: '700'},
 });
-
-export default NikeHeader;

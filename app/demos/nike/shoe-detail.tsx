@@ -6,27 +6,57 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {getOverrideAccent} from '@/lib/color';
 import {colors} from '@/theme/colors';
 
-import {Card} from './components/card';
-import {NikeHeader} from './components/nike-header';
-import {OptionsSheet} from './options-sheet';
+import Card from './components/card';
+import NikeHeader from './components/nike-header';
+import OptionsSheet from './options-sheet';
 import {useOptionsSheet} from '../../../hooks/useOptionsSheet';
 
-import type {ImageSourcePropType} from 'react-native';
-type Product = {id: string; title: string; image: ImageSourcePropType};
+import type {Product} from '@/types/product';
 
 const PRODUCTS: Product[] = [
-  {id: '1', title: 'Air Max Exosense', image: require('../../../assets/images/nike/nike-01.png')},
-  {id: '2', title: 'Air Max Pulse', image: require('../../../assets/images/nike/nike-02.png')},
-  {id: '3', title: 'Air Max Pulse', image: require('../../../assets/images/nike/nike-03.png')},
-  {id: '4', title: 'Air Max 97', image: require('../../../assets/images/nike/nike-04.png')},
-  {id: '5', title: 'Air Max Hero', image: require('../../../assets/images/nike/nike-05.png')},
+  {
+    id: '1',
+    title: 'Air Max Exosense',
+    subtitle: "'Atomic Powder'",
+    price: 270,
+    image: require('../../../assets/images/nike/nike-01.png'),
+  },
+  {
+    id: '2',
+    title: 'Air Max Pulse',
+    subtitle: 'Kinetic',
+    price: 149,
+    image: require('../../../assets/images/nike/nike-02.png'),
+  },
+  {
+    id: '3',
+    title: 'Air Max Pulse',
+    subtitle: 'Ultra',
+    price: 199,
+    image: require('../../../assets/images/nike/nike-03.png'),
+  },
+  {
+    id: '4',
+    title: 'Air Max 97',
+    subtitle: 'Black/Silver',
+    price: 189,
+    image: require('../../../assets/images/nike/nike-04.png'),
+  },
+  {
+    id: '5',
+    title: 'Air Max Hero',
+    subtitle: 'Volt',
+    price: 210,
+    image: require('../../../assets/images/nike/nike-05.png'),
+  },
 ];
 
-export default function ShoeDetail() {
+function ShoeDetail() {
   const controller = useOptionsSheet();
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const bottomPadding = 16 + insets.bottom + 64 + 12;
+  const [selected, setSelected] = React.useState<Product>(PRODUCTS[0]);
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={{backgroundColor: colors.background}}>
@@ -41,26 +71,34 @@ export default function ShoeDetail() {
               <Card
                 id={item.id}
                 title={item.title}
+                subtitle={item.subtitle}
+                price={item.price}
                 image={item.image}
                 accentColor={getOverrideAccent(String(item.image)) || getOverrideAccent(item.id)}
                 onPress={() => {
-                  const asset = Image.resolveAssetSource(item.image as ImageSourcePropType);
+                  const asset = Image.resolveAssetSource(item.image) ?? {uri: ''};
                   router.push({
                     pathname: '/product/[id]',
                     params: {
                       id: item.id,
-                      ...(asset?.uri ? {imageUri: asset.uri} : {}),
+                      title: item.title,
+                      subtitle: item.subtitle,
+                      price: String(item.price),
+                      imageUri: asset.uri,
                     },
                   });
                 }}
-                onCheckoutPress={() => controller.present()}
+                onCheckoutPress={() => {
+                  setSelected(item);
+                  controller.present();
+                }}
                 controller={controller}
               />
             </View>
           )}
         />
       </View>
-      <OptionsSheet controller={controller} />
+      <OptionsSheet controller={controller} product={selected} />
     </SafeAreaView>
   );
 }
@@ -86,3 +124,5 @@ const styles = StyleSheet.create({
   },
   stickyButtonText: {color: '#fff', fontWeight: '600', fontSize: 16},
 });
+
+export default ShoeDetail;

@@ -1,12 +1,14 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
-export function PriceCTA() {
+type Props = {price: number; label?: string; onPress?: () => void};
+
+export default function PriceCTA({price, label = 'Add to bag', onPress}: Props) {
   return (
     <View style={styles.row}>
-      <Text style={styles.price}>$149</Text>
-      <Pressable style={styles.button}>
-        <Text style={styles.buttonText}>Add to bag</Text>
+      <Text style={styles.price}>{`$${price.toFixed(2)}`}</Text>
+      <Pressable style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>{label}</Text>
       </Pressable>
     </View>
   );
@@ -18,5 +20,3 @@ const styles = StyleSheet.create({
   button: {backgroundColor: '#111', paddingVertical: 12, paddingHorizontal: 16, borderRadius: 10},
   buttonText: {color: '#fff', fontWeight: '600'},
 });
-
-export default PriceCTA;
