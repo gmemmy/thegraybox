@@ -1,10 +1,10 @@
 export const ACCENT_COLORS = [
-  '#7c3aed', // purple
-  '#ef4444', // red
-  '#f59e0b', // amber
+  '#4c1d95', // purple
+  '#991b1b', // red
+  '#f97316', // amber
   '#fb923c', // orange
   '#f43f5e', // rose
-  '#10b981', // emerald
+  '#10b981', // green
   '#84cc16', // lime
 ];
 
@@ -20,16 +20,16 @@ export function getAccentColor(seedA?: string, seedB?: string) {
 }
 
 export const ACCENT_OVERRIDES: Record<string, string> = {
-  'nike-01.png': '#7c3aed',
-  'nike-02.png': '#ef4444',
-  'nike-03.png': '#f59e0b',
-  'nike-04.png': '#ef4444',
+  'nike-01.png': '#4c1d95',
+  'nike-02.png': '#991b1b',
+  'nike-03.png': '#f97316',
+  'nike-04.png': '#dc2626',
   'nike-05.png': '#000000',
   // id-based fallbacks
-  '1': '#7c3aed',
-  '2': '#ef4444',
-  '3': '#f59e0b',
-  '4': '#ef4444',
+  '1': '#4c1d95',
+  '2': '#991b1b',
+  '3': '#f97316',
+  '4': '#dc2626',
   '5': '#000000',
 };
 

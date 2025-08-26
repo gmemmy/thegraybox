@@ -24,7 +24,7 @@ import {getAccentColor} from '@/lib/color';
 import {selection} from '@/lib/haptics';
 import {colors} from '@/theme/colors';
 
-import {AddToBagButton} from './add-to-bag-button';
+import AddToBagButton from './add-to-bag-button';
 
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
 import type {ImageSourcePropType} from 'react-native';
@@ -37,13 +37,14 @@ type Props = {
   image?: ImageSourcePropType;
   onPress?: () => void;
   onCheckoutPress?: () => void;
+  onOpenSheet?: () => void;
   controller?: OptionsSheetController;
   accentColor?: string;
 };
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-function Card({id, title, price, image, onPress, onCheckoutPress, controller, accentColor}: Props) {
+function Card({id, title, price, image, onPress, onCheckoutPress, onOpenSheet, controller, accentColor}: Props) {
   const bounceOffset = useSharedValue(0);
   const baseScale = useSharedValue(0.9);
   const ctaOpacity = useSharedValue(1);
@@ -70,6 +71,7 @@ function Card({id, title, price, image, onPress, onCheckoutPress, controller, ac
 
       if (shouldOpen) {
         runOnJS(selection)();
+        if (onOpenSheet) runOnJS(onOpenSheet)();
       }
 
       y.value = withSpring(

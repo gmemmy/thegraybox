@@ -6,11 +6,18 @@ import {colors} from '@/theme/colors';
 type Props = {
   onPress?: () => void;
   style?: ViewStyle;
+  color?: string;
+  disabled?: boolean;
 };
 
-export function AddToBagButton({onPress, style}: Props) {
+export default function AddToBagButton({onPress, style, color = colors.nike.black, disabled = false}: Props) {
   return (
-    <TouchableOpacity activeOpacity={0.9} style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      disabled={disabled}
+      style={[styles.button, {backgroundColor: disabled ? '#cfcfcf' : color, opacity: disabled ? 0.7 : 1}, style]}
+      onPress={onPress}
+    >
       <Text style={styles.text}>Add to bag</Text>
     </TouchableOpacity>
   );
@@ -31,5 +38,3 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
-export default AddToBagButton;

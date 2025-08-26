@@ -6,7 +6,7 @@ import Animated, {FadeInDown} from 'react-native-reanimated';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Transition from 'react-native-screen-transitions';
 
-import {AddToBagButton} from '@/app/demos/nike/components/add-to-bag-button';
+import AddToBagButton from '@/app/demos/nike/components/add-to-bag-button';
 import OptionsSheet from '@/app/demos/nike/options-sheet';
 import {useOptionsSheet} from '@/hooks/useOptionsSheet';
 import {colors} from '@/theme/colors';

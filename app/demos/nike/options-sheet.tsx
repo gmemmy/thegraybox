@@ -9,11 +9,16 @@ import Animated, {
 } from 'react-native-reanimated';
 import {runOnJS} from 'react-native-worklets';
 
-import PriceCTA from './components/price-cta';
+import {getOverrideAccent} from '@/lib/color';
+import {colors} from '@/theme/colors';
+
+import AddToBagButton from './components/add-to-bag-button';
 import SizeChips from './components/size-chips';
 
 import type {OptionsSheetController} from '@/hooks/useOptionsSheet';
 import type {Product} from '@/types/product';
+
+
 
 type Props = {
   controller: OptionsSheetController;
@@ -41,7 +46,7 @@ export default function OptionsSheet({controller, product}: Props) {
     },
   );
 
-  const sizes = useMemo(() => ['EU 40', 'EU41', 'EU42', 'EU43', 'EU44'], []);
+  const sizes = useMemo(() => ['EU 40', 'EU41', 'EU42', 'EU43', 'EU44', 'EU45', 'EU46'], []);
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
 
   return (
@@ -74,8 +79,17 @@ export default function OptionsSheet({controller, product}: Props) {
 
           <View style={[styles.content]}>
             <Text style={styles.sectionLabel}>SELECT SIZE</Text>
-            <SizeChips sizes={sizes} value={selectedSize} onChange={setSelectedSize} />
-            <PriceCTA price={product.price} label="Add to cart" />
+            <SizeChips
+              sizes={sizes}
+              value={selectedSize}
+              onChange={setSelectedSize}
+              accentColor={getOverrideAccent(String(product.image)) || getOverrideAccent(product.id)}
+            />
+            <AddToBagButton
+              onPress={() => {}}
+              color={getOverrideAccent(String(product.image)) || getOverrideAccent(product.id)}
+              disabled={!selectedSize}
+            />
           </View>
         </AnimatedView>
       </GestureDetector>
@@ -106,14 +120,17 @@ const styles = StyleSheet.create({
   },
   content: {
     gap: 16,
+    marginTop: 20,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.nike.lightGray,
   },
-  headerImage: {width: 100, height: 60},
+  headerImage: {width: 100, height: 100},
   headerInfo: {flex: 1, paddingHorizontal: 8},
   headerTitle: {fontWeight: '700', fontSize: 16},
   headerSubtitle: {color: '#999', marginTop: 2},

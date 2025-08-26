@@ -75,6 +75,10 @@ function ShoeDetail() {
                 price={item.price}
                 image={item.image}
                 accentColor={getOverrideAccent(String(item.image)) || getOverrideAccent(item.id)}
+                onOpenSheet={() => {
+                  setSelected(item);
+                  controller.present();
+                }}
                 onPress={() => {
                   const asset = Image.resolveAssetSource(item.image) ?? {uri: ''};
                   router.push({

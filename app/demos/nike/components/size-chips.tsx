@@ -1,3 +1,4 @@
+import { colors } from '@/theme/colors'
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
@@ -5,9 +6,10 @@ type Props = {
   sizes: string[];
   value?: string;
   onChange?: (size: string) => void;
+  accentColor?: string;
 };
 
-export default function SizeChips({sizes, value, onChange}: Props) {
+export default function SizeChips({sizes, value, onChange, accentColor = colors.backgroundDark}: Props) {
   return (
     <View style={styles.row}>
       <View style={styles.chips}>
@@ -17,9 +19,17 @@ export default function SizeChips({sizes, value, onChange}: Props) {
             <Pressable
               key={s}
               onPress={() => onChange?.(s)}
-              style={[styles.chip, selected ? styles.chipSelected : undefined]}
+              style={[
+                styles.chip,
+                selected ? {backgroundColor: accentColor, borderColor: accentColor} : undefined,
+              ]}
             >
-              <Text style={[styles.chipText, selected ? styles.chipTextSelected : undefined]}>
+              <Text
+                style={[
+                  styles.chipText,
+                  selected ? {color: '#fff'} : undefined,
+                ]}
+              >
                 {s}
               </Text>
             </Pressable>
@@ -33,8 +43,13 @@ export default function SizeChips({sizes, value, onChange}: Props) {
 const styles = StyleSheet.create({
   row: {gap: 8},
   chips: {flexDirection: 'row', gap: 12, flexWrap: 'wrap'},
-  chip: {paddingVertical: 10, paddingHorizontal: 14, borderRadius: 10, backgroundColor: '#f1f1f1'},
-  chipSelected: {backgroundColor: '#e1e1e1'},
-  chipText: {fontWeight: '600'},
-  chipTextSelected: {opacity: 1},
+  chip: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderColor: colors.nike.lightGray,
+  },
+  chipText: {fontWeight: '600', color: colors.nike.gray},
 });
