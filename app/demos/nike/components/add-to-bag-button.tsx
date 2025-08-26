@@ -10,12 +10,21 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function AddToBagButton({onPress, style, color = colors.nike.black, disabled = false}: Props) {
+export default function AddToBagButton({
+  onPress,
+  style,
+  color = colors.nike.black,
+  disabled = false,
+}: Props) {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       disabled={disabled}
-      style={[styles.button, {backgroundColor: disabled ? '#cfcfcf' : color, opacity: disabled ? 0.7 : 1}, style]}
+      style={[
+        styles.button,
+        {backgroundColor: disabled ? '#cfcfcf' : color, opacity: disabled ? 0.7 : 1},
+        style,
+      ]}
       onPress={onPress}
     >
       <Text style={styles.text}>Add to bag</Text>

@@ -44,7 +44,17 @@ type Props = {
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-function Card({id, title, price, image, onPress, onCheckoutPress, onOpenSheet, controller, accentColor}: Props) {
+function Card({
+  id,
+  title,
+  price,
+  image,
+  onPress,
+  onCheckoutPress,
+  onOpenSheet,
+  controller,
+  accentColor,
+}: Props) {
   const bounceOffset = useSharedValue(0);
   const baseScale = useSharedValue(0.9);
   const ctaOpacity = useSharedValue(1);

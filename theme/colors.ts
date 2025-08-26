@@ -4,6 +4,7 @@ export const colors = {
   foreground: '#111111',
   muted: '#f1f1f1',
   primary: '#0EA5E9',
+  success: '#22c55e',
   border: '#e5e5e5',
   nike: {
     purple: '#7c3aed',
