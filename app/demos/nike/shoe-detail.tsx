@@ -82,7 +82,7 @@ function ShoeDetail() {
                 onPress={() => {
                   const asset = Image.resolveAssetSource(item.image) ?? {uri: ''};
                   router.push({
-                    pathname: '/product/[id]',
+                    pathname: '/demos/nike/product/[id]',
                     params: {
                       id: item.id,
                       title: item.title,

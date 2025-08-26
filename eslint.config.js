@@ -19,6 +19,7 @@ const bestPractices = {
   plugins: {
     'unused-imports': unusedImports,
     'check-file': checkFile,
+    'react-compiler': require('eslint-plugin-react-compiler'),
   },
   rules: {
     'check-file/filename-naming-convention': [
@@ -80,6 +81,9 @@ const bestPractices = {
         argsIgnorePattern: '^_',
       },
     ],
+
+    // Enforce React Compiler linting
+    'react-compiler/react-compiler': 'error',
   },
 };
 
