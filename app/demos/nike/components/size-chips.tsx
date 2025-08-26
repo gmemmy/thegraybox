@@ -1,6 +1,7 @@
-import {colors} from '@/theme/colors';
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+
+import {colors} from '@/theme/colors';
 
 type Props = {
   sizes: string[];
@@ -29,7 +30,9 @@ export default function SizeChips({
                 selected ? {backgroundColor: accentColor, borderColor: accentColor} : undefined,
               ]}
             >
-              <Text style={[styles.chipText, selected ? {color: colors.background} : undefined]}>{s}</Text>
+              <Text style={[styles.chipText, selected ? {color: colors.background} : undefined]}>
+                {s}
+              </Text>
             </Pressable>
           );
         })}

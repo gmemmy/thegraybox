@@ -20,19 +20,19 @@ All demos live under `app/demos`:
 1. Install deps
 
 ```bash
-npm install
+bun install
 ```
 
 2. Start the dev server
 
 ```bash
-npm start
+bun start
 ```
 
 Then choose a target:
 
-- iOS Simulator: `npx ios`
-- Android Emulator: `npx android`
+- iOS Simulator: `bunx ios`
+- Android Emulator: `bunx android`
 
 This project uses [file-based routing](https://docs.expo.dev/router/introduction). New demos can be added by creating a folder under `app/demos/` and exporting a screen from `index.tsx`.
 
