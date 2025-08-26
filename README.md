@@ -1,6 +1,6 @@
 # Gray Box — React Native Animated Interactions
 
-This repo is a small compendium of animated interactions in React Native that I find fun to build and iterate on. It's an [Expo](https://expo.dev) app using [Expo Router](https://docs.expo.dev/router/) with [Reanimated](https://docs.swmansion.com/react-native-reanimated/) and [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/).
+This repo is a small compendium of animated interactions in React Native that I find fun to build and iterate on. It's an [Expo](https://expo.dev) app (SDK 54) using [Expo Router](https://docs.expo.dev/router/) with [Reanimated](https://docs.swmansion.com/react-native-reanimated/) and [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/).
 
 ## Demos
 
@@ -13,7 +13,7 @@ All demos live under `app/demos`:
   - Card swipe down gesture to reveal bottom sheet
 - `parallax-header/`: Collapsing header with parallax image and sticky content
 
-[iOS](https://github.com/user-attachments/assets/36637503-00c1-4440-a2b6-93ec2664fc10)
+[iOS](https://github.com/user-attachments/assets/4bba9bb8-b673-4175-ac90-cc485269b958)
 
 ## Run it
 
@@ -40,10 +40,15 @@ This project uses [file-based routing](https://docs.expo.dev/router/introduction
 
 - React Native + Expo
 - Expo Router
-- React Native Reanimated 3
+- React Native Reanimated 4
 - React Native Gesture Handler
-- Expo modules: Blur, Haptics, Image, Symbols, Status Bar
+- react-native-screen-transitions (shared-element style transitions)
+- @shopify/react-native-skia (some effects/graphics)
+- React Native Worklets (lightweight worklets utilities)
+- Expo modules: Blur, Haptics, Image, Symbols, Status Bar, Web Browser
 
 ## Credits
 
 Built for learning, exploration, and fun. Inspirations come from various product UIs and motion studies across the community.
+
+Ciao!
