@@ -13,7 +13,7 @@ All demos live under `app/demos`:
   - Card swipe down gesture to reveal bottom sheet
 - `parallax-header/`: Collapsing header with parallax image and sticky content
 
-<img width="400" height="950" alt="Image" src="https://github.com/user-attachments/assets/24ddc0d5-772c-4677-973a-5b00f0576254" />
+https://github.com/user-attachments/assets/dc413210-6108-4dd7-aa57-afd124e16b07
 
 [iOS](https://github.com/user-attachments/assets/4bba9bb8-b673-4175-ac90-cc485269b958)
 
