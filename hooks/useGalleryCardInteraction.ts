@@ -28,10 +28,13 @@ export function useGalleryCardInteraction() {
   const tailX = useSharedValue(0);
   const tailY = useSharedValue(0);
 
-  const onLayout = useCallback((w: number, h: number) => {
-    cardW.value = w;
-    cardH.value = h;
-  }, [cardW, cardH]);
+  const onLayout = useCallback(
+    (w: number, h: number) => {
+      cardW.value = w;
+      cardH.value = h;
+    },
+    [cardW, cardH],
+  );
 
   const gesture = Gesture.Pan()
     .onBegin((e) => {
@@ -80,17 +83,11 @@ export function useGalleryCardInteraction() {
 
   const headGlowStyle = useAnimatedStyle(() => ({
     opacity: glowOpacity.value,
-    transform: [
-      {translateX: glowX.value - HEAD_RADIUS},
-      {translateY: glowY.value - HEAD_RADIUS},
-    ],
+    transform: [{translateX: glowX.value - HEAD_RADIUS}, {translateY: glowY.value - HEAD_RADIUS}],
   }));
   const tailGlowStyle = useAnimatedStyle(() => ({
     opacity: glowOpacity.value * 0.8,
-    transform: [
-      {translateX: tailX.value - TAIL_RADIUS},
-      {translateY: tailY.value - TAIL_RADIUS},
-    ],
+    transform: [{translateX: tailX.value - TAIL_RADIUS}, {translateY: tailY.value - TAIL_RADIUS}],
   }));
 
   return {

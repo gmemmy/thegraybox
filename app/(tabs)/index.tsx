@@ -1,52 +1,30 @@
-import {type Href, Link} from 'expo-router';
-import React from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import * as React from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-type Demo = {key: string; title: string; href: Href};
-
-const DEMOS: Demo[] = [
-  {key: 'nike', title: 'Nike Product Detail', href: '/demos/nike'},
-  {key: 'glass-tabs', title: 'Glass Tabs', href: '/demos/glass-tabs'},
-  {key: 'parallax-header', title: 'Parallax Header', href: '/demos/parallax-header'},
-];
+import GalleryCard from '@/components/gallery/gallery-card';
+import {GALLERY_ITEMS} from '@/lib/registry/gallery';
 
 export default function GalleryScreen() {
+  const insets = useSafeAreaInsets();
   return (
     <FlatList
-      contentContainerStyle={styles.container}
-      data={DEMOS}
+      contentContainerStyle={[styles.container, {paddingTop: insets.top + 8}]}
+      data={GALLERY_ITEMS}
       numColumns={2}
       columnWrapperStyle={styles.row}
-      keyExtractor={(item) => item.key}
+      keyExtractor={(item) => item.id}
       renderItem={({item}) => (
-        <Link href={item.href} asChild>
-          <TouchableOpacity style={styles.card}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-          </TouchableOpacity>
-        </Link>
+        <View style={styles.cell}>
+          <GalleryCard item={item} />
+        </View>
       )}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
-  row: {
-    gap: 16,
-  },
-  card: {
-    flex: 1,
-    minHeight: 120,
-    borderRadius: 12,
-    backgroundColor: '#f1f1f1',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  container: {padding: 16, paddingBottom: 24},
+  row: {gap: 16},
+  cell: {flex: 1, marginBottom: 16},
 });

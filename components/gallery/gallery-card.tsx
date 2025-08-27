@@ -4,7 +4,11 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {GestureDetector} from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
-import {HEAD_RADIUS, TAIL_RADIUS, useGalleryCardInteraction} from '@/hooks/useGalleryCardInteraction';
+import {
+  HEAD_RADIUS,
+  TAIL_RADIUS,
+  useGalleryCardInteraction,
+} from '@/hooks/useGalleryCardInteraction';
 import {colors} from '@/theme/colors';
 import {radii, shadows, spacing} from '@/theme/tokens';
 
@@ -15,21 +19,34 @@ type Props = {item: GalleryItem};
 function GalleryCard({item}: Props) {
   const {gesture, onLayout, styles: hookStyles} = useGalleryCardInteraction();
 
-  const handleLayout = React.useCallback((e: {nativeEvent: {layout: {width: number; height: number}}}) => {
-    onLayout(e.nativeEvent.layout.width, e.nativeEvent.layout.height);
-  }, [onLayout]);
+  const handleLayout = React.useCallback(
+    (e: {nativeEvent: {layout: {width: number; height: number}}}) => {
+      onLayout(e.nativeEvent.layout.width, e.nativeEvent.layout.height);
+    },
+    [onLayout],
+  );
 
   return (
     <Link href={item.route} asChild>
       <GestureDetector gesture={gesture}>
-        <Pressable accessibilityRole="button" accessibilityLabel={item.title} onPress={() => {
-          router.push(item.route)
-        }}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={item.title}
+          onPress={() => {
+            router.push(item.route);
+          }}
+        >
           <Animated.View onLayout={handleLayout} style={[styles.card, hookStyles.cardStyle]}>
             <Image source={item.image} style={styles.image} resizeMode="cover" />
             <View style={styles.scrim} />
-            <Animated.View style={[styles.glowTail, hookStyles.tailGlowStyle]} pointerEvents="none" />
-            <Animated.View style={[styles.glowHead, hookStyles.headGlowStyle]} pointerEvents="none" />
+            <Animated.View
+              style={[styles.glowTail, hookStyles.tailGlowStyle]}
+              pointerEvents="none"
+            />
+            <Animated.View
+              style={[styles.glowHead, hookStyles.headGlowStyle]}
+              pointerEvents="none"
+            />
             <View style={styles.metaOverlay}>
               <Text style={styles.title}>{item.title}</Text>
               {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : null}

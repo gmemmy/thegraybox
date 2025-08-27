@@ -10,7 +10,7 @@ export function iosLike(overrides: Partial<WithSpringConfig> = {}): WithSpringCo
     restDisplacementThreshold: 0.01,
     restSpeedThreshold: 0.01,
     ...overrides,
-  } as WithSpringConfig;
+  } as unknown as WithSpringConfig;
 }
 
 export function gentle(overrides: Partial<WithSpringConfig> = {}): WithSpringConfig {
@@ -23,5 +23,5 @@ export function gentle(overrides: Partial<WithSpringConfig> = {}): WithSpringCon
     restDisplacementThreshold: 0.01,
     restSpeedThreshold: 0.01,
     ...overrides,
-  } as WithSpringConfig;
+  } as unknown as WithSpringConfig;
 }

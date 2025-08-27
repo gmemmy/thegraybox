@@ -78,7 +78,7 @@ export default function OptionsSheet({controller, product}: Props) {
           style={[StyleSheet.absoluteFillObject, overlayAnimatedStyle]}
         >
           <View style={StyleSheet.absoluteFill}>
-            {/* @ts-expect-error expo-blur typing for style */}
+            {/* @ts-expect-error - BlurView is not typed */}
             <BlurView intensity={70} tint="dark" style={StyleSheet.absoluteFill} />
           </View>
         </AnimatedView>
@@ -91,7 +91,6 @@ export default function OptionsSheet({controller, product}: Props) {
         >
           <View style={styles.handleBar} />
           <View style={[styles.headerRow]}>
-            {/* @ts-expect-error reanimated typing for ref */}
             <AnimatedView ref={overlay.headerImageRef} style={styles.headerImageWrap}>
               <Image
                 source={product.image}

@@ -59,73 +59,73 @@ export default function ProductDetails() {
     <>
       <Stack.Screen options={{headerShown: false}} />
       <SafeAreaView style={{flex: 1}} edges={['left', 'right']}>
-      <View style={styles.container}>
-        <Pressable onPress={() => router.back()} style={[styles.backBtn, {top: top + 8}]}>
-          <Entypo name="chevron-small-left" size={24} color="black" />
-        </Pressable>
-        <Transition.ScrollView
-          style={[styles.scrollView]}
-          contentContainerStyle={{paddingTop: top + 8, paddingBottom: 12}}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
-            <Transition.View sharedBoundTag={`shoe-${product.id}`} style={styles.heroImage}>
-              <Animated.Image source={product.image} style={styles.image} resizeMode="contain" />
-            </Transition.View>
-          </View>
-          <View style={styles.ctaWrap}>
-            <AnimatedView entering={FadeInDown.delay(620).duration(260)}>
-              <AddToBagButton onPress={() => controller.present()} />
-            </AnimatedView>
-          </View>
-          <View style={styles.content}>
-            <AnimatedView entering={FadeInDown.delay(720).duration(260)} style={styles.header}>
-              <Text style={styles.brand}>{product.brand}</Text>
-              <Text style={styles.title}>{product.title}</Text>
-              <Text style={styles.price}>{`$${product.price.toFixed(2)}`}</Text>
-            </AnimatedView>
+        <View style={styles.container}>
+          <Pressable onPress={() => router.back()} style={[styles.backBtn, {top: top + 8}]}>
+            <Entypo name="chevron-small-left" size={24} color="black" />
+          </Pressable>
+          <Transition.ScrollView
+            style={[styles.scrollView]}
+            contentContainerStyle={{paddingTop: top + 8, paddingBottom: 12}}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={[styles.heroContainer, {width: screenWidth, height: screenWidth * 0.74}]}>
+              <Transition.View sharedBoundTag={`shoe-${product.id}`} style={styles.heroImage}>
+                <Animated.Image source={product.image} style={styles.image} resizeMode="contain" />
+              </Transition.View>
+            </View>
+            <View style={styles.ctaWrap}>
+              <AnimatedView entering={FadeInDown.delay(620).duration(260)}>
+                <AddToBagButton onPress={() => controller.present()} />
+              </AnimatedView>
+            </View>
+            <View style={styles.content}>
+              <AnimatedView entering={FadeInDown.delay(720).duration(260)} style={styles.header}>
+                <Text style={styles.brand}>{product.brand}</Text>
+                <Text style={styles.title}>{product.title}</Text>
+                <Text style={styles.price}>{`$${product.price.toFixed(2)}`}</Text>
+              </AnimatedView>
 
-            <AnimatedView entering={FadeInDown.delay(820).duration(240)} style={styles.section}>
-              <Text style={styles.sectionTitle}>Description</Text>
-              <Text style={styles.description}>{product.description}</Text>
-            </AnimatedView>
+              <AnimatedView entering={FadeInDown.delay(820).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Description</Text>
+                <Text style={styles.description}>{product.description}</Text>
+              </AnimatedView>
 
-            <AnimatedView entering={FadeInDown.delay(900).duration(240)} style={styles.section}>
-              <Text style={styles.sectionTitle}>Features</Text>
-              {product.features.map((feature) => (
-                <View key={feature} style={styles.featureItem}>
-                  <View style={styles.bullet} />
-                  <Text style={styles.featureText}>{feature}</Text>
+              <AnimatedView entering={FadeInDown.delay(900).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Features</Text>
+                {product.features.map((feature) => (
+                  <View key={feature} style={styles.featureItem}>
+                    <View style={styles.bullet} />
+                    <Text style={styles.featureText}>{feature}</Text>
+                  </View>
+                ))}
+              </AnimatedView>
+
+              <AnimatedView entering={FadeInDown.delay(980).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Available Sizes</Text>
+                <View style={styles.sizeContainer}>
+                  {product.sizes.map((size) => (
+                    <View key={size} style={styles.sizeChip}>
+                      <Text style={styles.sizeText}>{size}</Text>
+                    </View>
+                  ))}
                 </View>
-              ))}
-            </AnimatedView>
+              </AnimatedView>
 
-            <AnimatedView entering={FadeInDown.delay(980).duration(240)} style={styles.section}>
-              <Text style={styles.sectionTitle}>Available Sizes</Text>
-              <View style={styles.sizeContainer}>
-                {product.sizes.map((size) => (
-                  <View key={size} style={styles.sizeChip}>
-                    <Text style={styles.sizeText}>{size}</Text>
-                  </View>
-                ))}
-              </View>
-            </AnimatedView>
-
-            <AnimatedView entering={FadeInDown.delay(1060).duration(240)} style={styles.section}>
-              <Text style={styles.sectionTitle}>Colors</Text>
-              <View style={styles.colorContainer}>
-                {product.colors.map((color) => (
-                  <View key={color} style={styles.colorChip}>
-                    <Text style={styles.colorText}>{color}</Text>
-                  </View>
-                ))}
-              </View>
-            </AnimatedView>
-          </View>
-        </Transition.ScrollView>
-        <OptionsSheet controller={controller} product={baseProduct} />
-      </View>
-    </SafeAreaView>
+              <AnimatedView entering={FadeInDown.delay(1060).duration(240)} style={styles.section}>
+                <Text style={styles.sectionTitle}>Colors</Text>
+                <View style={styles.colorContainer}>
+                  {product.colors.map((color) => (
+                    <View key={color} style={styles.colorChip}>
+                      <Text style={styles.colorText}>{color}</Text>
+                    </View>
+                  ))}
+                </View>
+              </AnimatedView>
+            </View>
+          </Transition.ScrollView>
+          <OptionsSheet controller={controller} product={baseProduct} />
+        </View>
+      </SafeAreaView>
     </>
   );
 }
@@ -263,5 +263,3 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
-
-

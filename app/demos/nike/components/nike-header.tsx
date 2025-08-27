@@ -1,6 +1,6 @@
 import {Feather} from '@expo/vector-icons';
 import {useRouter} from 'expo-router';
-import React from 'react';
+import * as React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Animated, {useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
 

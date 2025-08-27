@@ -3,6 +3,7 @@ import {Tabs} from 'expo-router';
 import {StyleSheet} from 'react-native';
 
 function TabBarBlurBackground() {
+  // @ts-expect-error - BlurView is not typed
   return <BlurView intensity={50} tint="systemChromeMaterial" style={StyleSheet.absoluteFill} />;
 }
 
