@@ -6,11 +6,14 @@ module.exports = (api) => {
         'babel-preset-expo',
         {
           'react-compiler': {
-            sources: (filename) => filename.includes('app/demos'),
+            sources: (filename) =>
+              filename.includes('app/demos') || filename.includes('app/components'),
           },
         },
       ],
     ],
-    plugins: ['react-native-worklets/plugin'],
+    plugins: [
+      'react-native-worklets/plugin',
+    ],
   };
 };

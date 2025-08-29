@@ -6,12 +6,10 @@ This repo is a small compendium of animated interactions in React Native that I 
 
 All demos live under `app/demos`:
 
+- `chat/`: Animated chat UI — inbox list, scrollable thread, sticky composer (Keyboard Controller), and a "new messages" pill
 - `glass-tabs/`: Glassy tab bar with blur and springy transitions
 - `nike/`: Product detail card, color/size selectors, and an options sheet interaction
-  - Shared-element-style transition to Product Details using `react-native-screen-transitions` with Expo Router
-  - Emphasized screen transition (scale/translate/overlay) configured via `lib/animation/transitions.ts`
-  - Card swipe down gesture to reveal bottom sheet
-- `parallax-header/`: Collapsing header with parallax image and sticky content
+- `danmaku-stream/`: WIP
 
 https://github.com/user-attachments/assets/dc413210-6108-4dd7-aa57-afd124e16b07
 
@@ -40,14 +38,16 @@ This project uses [file-based routing](https://docs.expo.dev/router/introduction
 
 ## Tech
 
-- React Native + Expo
-- Expo Router
+- React Native + Expo (SDK 54)
+- Expo Router 6 (beta)
+- React 19 + React Compiler (opt-in)
 - React Native Reanimated 4
 - React Native Gesture Handler
+- React Native Keyboard Controller
 - react-native-screen-transitions (shared-element style transitions)
 - @shopify/react-native-skia (some effects/graphics)
 - React Native Worklets (lightweight worklets utilities)
-- Expo modules: Blur, Haptics, Image, Symbols, Status Bar, Web Browser
+- Expo modules: Blur, Haptics, Image, Symbols, Status Bar,
 
 ## Credits
 
