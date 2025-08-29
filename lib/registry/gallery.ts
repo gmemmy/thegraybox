@@ -31,4 +31,11 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     image: require('../../assets/images/gallery/gallery-02.jpg'),
     route: '/demos/chat',
   },
+  {
+    id: 'danmaku',
+    title: 'Danmaku Streams',
+    subtitle: 'Danmaku + transitions',
+    image: require('../../assets/images/gallery/gallery-06.jpg'),
+    route: '/demos/chat',
+  },
 ];

@@ -1,38 +1,26 @@
-import {BlurView} from 'expo-blur';
-import {Tabs} from 'expo-router';
-import {StyleSheet} from 'react-native';
-
-function TabBarBlurBackground() {
-  // @ts-expect-error - BlurView is not typed
-  return <BlurView intensity={50} tint="systemChromeMaterial" style={StyleSheet.absoluteFill} />;
-}
+import {Icon, Label, NativeTabs} from 'expo-router/unstable-native-tabs';
+import {DynamicColorIOS} from 'react-native';
 
 export default function TabLayout() {
+  const dynamic = DynamicColorIOS({ dark: 'white', light: 'black' });
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          position: 'absolute',
-          left: 12,
-          right: 12,
-          bottom: 12,
-          height: 64,
-          borderRadius: 20,
-          borderTopWidth: 0,
-          backgroundColor: 'transparent',
-          elevation: 0,
-          overflow: 'hidden',
-        },
-        tabBarBackground: () => <TabBarBlurBackground />,
-      }}
+    <NativeTabs
+      blurEffect="prominent"
+      backgroundColor="transparent"
+      iconColor={dynamic}
+      tintColor={dynamic}
+      disableTransparentOnScrollEdge={false}
+      minimizeBehavior="automatic"
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Gallery',
-        }}
-      />
-    </Tabs>
+      <NativeTabs.Trigger name="index">
+        <Label>Gallery</Label>
+        <Icon sf={{default: 'house', selected: 'house.fill'}} />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="info">
+        <Label>Info</Label>
+        <Icon sf={{default: 'info.circle', selected: 'info.circle.fill'}} />
+      </NativeTabs.Trigger>
+      
+    </NativeTabs>
   );
 }
