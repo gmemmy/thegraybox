@@ -13,7 +13,8 @@
       "jsEngine": "hermes",
       "bundleIdentifier": "com.anonymous.graybox",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCameraUsageDescription": "Camera access is required to show the live preview."
       }
     },
     "android": {
@@ -22,7 +23,10 @@
         "backgroundColor": "#ffffff"
       },
       "jsEngine": "hermes",
-      "package": "com.anonymous.graybox"
+      "package": "com.anonymous.graybox",
+      "permissions": [
+        "CAMERA"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -39,7 +43,16 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "This app requires camera access.",
+          "enableMicrophonePermission": false
+        }
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,

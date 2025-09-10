@@ -36,6 +36,6 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     title: 'Danmaku Streams',
     subtitle: 'Danmaku + transitions',
     image: require('../../assets/images/gallery/gallery-06.jpg'),
-    route: '/demos/chat',
+    route: '/demos/stream',
   },
 ];
