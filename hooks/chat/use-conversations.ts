@@ -4,14 +4,6 @@ import * as React from 'react';
 import {getConversations, markRead as storeMarkRead} from '@/lib/state/mock-store';
 import {compareByLastMessageDesc} from '@/lib/time/format';
 
-export type Conversation = {
-  id: string;
-  title: string;
-  participants: string[];
-  lastMessage: {text: string; timestamp: number};
-  unreadCount: number;
-};
-
 export function useConversations() {
   const router = useRouter();
   const [data, setData] = React.useState(() =>

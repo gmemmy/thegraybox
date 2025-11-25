@@ -1,10 +1,4 @@
-export type Conversation = {
-  id: string;
-  title: string;
-  participants: string[];
-  lastMessage: {text: string; timestamp: number};
-  unreadCount: number;
-};
+import type {Conversation} from '@/lib/chat/types';
 
 export type Message = {
   id: string;

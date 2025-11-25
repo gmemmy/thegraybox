@@ -11,7 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Transition from 'react-native-screen-transitions';
-import {runOnJS} from 'react-native-worklets';
+import {runOnJS, scheduleOnRN} from 'react-native-worklets';
 
 import {
   ANIMATION_TIMING,
@@ -80,7 +80,7 @@ function Card({
       const shouldOpen = shouldOpenSheet(dragged, e.velocityY, screenH);
 
       if (shouldOpen) {
-        runOnJS(selection)();
+        scheduleOnRN(() => selection());
         if (onOpenSheet) runOnJS(onOpenSheet)();
       }
 

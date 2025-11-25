@@ -1,12 +1,12 @@
+import {MaterialIcons} from '@expo/vector-icons';
 import {Stack} from 'expo-router';
 import * as React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {colors} from '@/theme/colors';
 
-import ConversationList from './components/conversation-list';
-import {useConversations} from '../../../hooks/use-conversations';
-import {MaterialIcons} from '@expo/vector-icons';
+import ConversationList from '@/components/chat/conversation-list';
+import {useConversations} from '@/hooks/chat/use-conversations';
+import {colors} from '@/theme/colors';
 
 export default function ChatsDemoScreen() {
   const {data, open} = useConversations();
@@ -23,7 +23,7 @@ export default function ChatsDemoScreen() {
   return (
     <>
       <Stack.Screen options={{headerShown: false}} />
-      <SafeAreaView mode="padding" edges={['top']} style={{flex: 1}}>
+      <SafeAreaView mode="padding" edges={['top']} style={styles.container}>
         <View style={styles.header}>
           <Text accessibilityRole="header" style={styles.headerTitle}>
             Messages
@@ -43,6 +43,10 @@ export default function ChatsDemoScreen() {
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
   header: {
     paddingHorizontal: 16,
     paddingTop: 8,

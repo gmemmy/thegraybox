@@ -4,9 +4,7 @@ import {View} from 'react-native';
 
 import ConversationRow from './conversation-row';
 
-import type {Conversation} from '@/hooks/use-conversations';
-
-export type {Conversation};
+import type {Conversation} from '@/lib/chat/types';
 
 type Props = {
   conversations: Conversation[];

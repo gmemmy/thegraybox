@@ -14,7 +14,8 @@
       "bundleIdentifier": "com.anonymous.graybox",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "NSCameraUsageDescription": "Camera access is required to show the live preview."
+        "NSCameraUsageDescription": "Camera access is required to show the live preview.",
+        "UIDesignRequiresCompatibility": false
       }
     },
     "android": {

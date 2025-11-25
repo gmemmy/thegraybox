@@ -32,3 +32,26 @@ export function formatRelativeTime(timestamp: number): string {
   // Otherwise: show short date (e.g., Mar 5)
   return then.toLocaleDateString(undefined, {month: 'short', day: 'numeric'});
 }
+
+/**
+ * Format timestamp for chat header (e.g., "Tue, Aug 26 at 21:06")
+ */
+export function formatChatHeaderDate(timestamp: number): string {
+  const date = new Date(timestamp);
+  const weekday = date.toLocaleDateString(undefined, {weekday: 'short'});
+  const month = date.toLocaleDateString(undefined, {month: 'short'});
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${weekday}, ${month} ${day} at ${hours}:${minutes}`;
+}
+
+/**
+ * Format timestamp for message bubble (e.g., "21:06")
+ */
+export function formatMessageTime(timestamp: number): string {
+  const date = new Date(timestamp);
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}

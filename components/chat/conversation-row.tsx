@@ -5,7 +5,7 @@ import {getChatAvatarForConv} from '@/lib/registry/chat';
 import {formatRelativeTime} from '@/lib/time/format';
 import {colors} from '@/theme/colors';
 
-import type {Conversation} from '@/hooks/use-conversations';
+import type {Conversation} from '@/lib/chat/types';
 
 type Props = {
   item: Conversation;

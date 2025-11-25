@@ -9,7 +9,7 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {runOnJS} from 'react-native-worklets';
+import {scheduleOnRN} from 'react-native-worklets';
 
 import {useAddToBagOverlay} from '@/hooks/useAddToBagOverlay';
 import {getOverrideAccent} from '@/lib/color';
@@ -50,7 +50,7 @@ export default function OptionsSheet({controller, product}: Props) {
   useAnimatedReaction(
     () => controller.progress.value > 0.02 || overlay.forceBlur.value,
     (current, previous) => {
-      if (current !== previous) runOnJS(setBlockTouches)(current);
+      if (current !== previous) scheduleOnRN(() => setBlockTouches(current));
     },
   );
 
@@ -64,7 +64,7 @@ export default function OptionsSheet({controller, product}: Props) {
     overlay.runSequence({
       bottomInset: insets.bottom,
       onDone: () => {
-        runOnJS(setHideHeaderImage)(false);
+        scheduleOnRN(() => setHideHeaderImage(false));
       },
     });
     controller.dismiss();
